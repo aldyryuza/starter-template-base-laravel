@@ -29,63 +29,28 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="#" id="get-url" aria-expanded="false">
                         <span>
-                            <i class="bx bx-aperture"></i>
+                            <i class="bx bx-home"></i>
                         </span>
-                        <span class="hide-menu">Modern</span>
+                        <span class="hide-menu">Dashboard</span>
                     </a>
                 </li>
 
 
 
-                <!-- ---------------------------------- -->
-                <!-- Frontend page -->
-                <!-- ---------------------------------- -->
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <span class="d-flex">
-                            <i class="bx bx-layout"></i>
+                            <i class="bx bx-user"></i>
                         </span>
-                        <span class="hide-menu">Frontend page</span>
+                        <span class="hide-menu">Master</span>
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item">
-                            <a href="frontend-landingpage.html" class="sidebar-link">
+                            <a href="{{ url('master/users') }}" class="sidebar-link">
                                 <div class="round-16 d-flex align-items-center justify-content-center">
                                     <i class="bx bx-circle"></i>
                                 </div>
-                                <span class="hide-menu">Homepage</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="frontend-aboutpage.html" class="sidebar-link">
-                                <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="bx bx-circle"></i>
-                                </div>
-                                <span class="hide-menu">About Us</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="frontend-contactpage.html" class="sidebar-link">
-                                <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="bx bx-circle"></i>
-                                </div>
-                                <span class="hide-menu">Contact Us</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="frontend-blogpage.html" class="sidebar-link">
-                                <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="bx bx-circle"></i>
-                                </div>
-                                <span class="hide-menu">Blog</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="frontend-blogdetailpage.html" class="sidebar-link">
-                                <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="bx bx-circle"></i>
-                                </div>
-                                <span class="hide-menu">Blog Details</span>
+                                <span class="hide-menu">Users</span>
                             </a>
                         </li>
                     </ul>
@@ -110,9 +75,46 @@
                 </button>
             </div>
         </div>
-
-        <!-- ---------------------------------- -->
-        <!-- Start Vertical Layout Sidebar -->
-        <!-- ---------------------------------- -->
     </div>
 </aside>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // ambil URL saat ini (tanpa parameter GET)
+        const currentURL = window.location.pathname.split("/").pop();
+
+        // ambil semua link di sidebar
+        const sidebarLinks = document.querySelectorAll(".sidebar-link");
+
+        sidebarLinks.forEach(link => {
+            const href = link.getAttribute("href");
+
+            // skip jika href kosong atau javascript:void(0)
+            if (!href || href === "#" || href.startsWith("javascript")) return;
+
+            // jika cocok dengan halaman saat ini
+            if (currentURL === href || window.location.href.includes(href)) {
+                // tambahkan class active pada link
+                link.classList.add("active");
+
+                // buka parent submenu kalau ada
+                const parentItem = link.closest(".collapse");
+                if (parentItem) {
+                    parentItem.classList.add("show");
+
+                    // cari parent <li> yang punya class has-arrow
+                    const parentTrigger = parentItem.previousElementSibling;
+                    if (parentTrigger && parentTrigger.classList.contains("has-arrow")) {
+                        parentTrigger.setAttribute("aria-expanded", "true");
+                        parentTrigger.classList.add("active");
+                    }
+                }
+
+                // tambahkan active juga pada parent .sidebar-item
+                const li = link.closest(".sidebar-item");
+                if (li) li.classList.add("active");
+            }
+        });
+    });
+</script>
