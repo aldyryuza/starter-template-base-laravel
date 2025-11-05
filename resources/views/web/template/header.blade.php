@@ -38,14 +38,7 @@
                         <!-- ------------------------------- -->
                         <!-- start language Dropdown -->
                         <!-- ------------------------------- -->
-                        <li class="nav-item nav-icon-hover-bg rounded-circle">
-                            <a class="nav-link moon dark-layout" href="javascript:void(0)">
-                                <i class="bx bx-moon moon"></i>
-                            </a>
-                            <a class="nav-link sun light-layout" href="javascript:void(0)">
-                                <i class="bx bx-sun sun"></i>
-                            </a>
-                        </li>
+
 
 
                         <li class="nav-item nav-icon-hover-bg rounded-circle dropdown">
@@ -498,14 +491,6 @@
                         <!-- ------------------------------- -->
                         <!-- start language Dropdown -->
                         <!-- ------------------------------- -->
-                        <li class="nav-item nav-icon-hover-bg rounded-circle">
-                            <a class="nav-link moon dark-layout" href="javascript:void(0)">
-                                <i class="bx bx-moon moon"></i>
-                            </a>
-                            <a class="nav-link sun light-layout" href="javascript:void(0)">
-                                <i class="bx bx-sun sun"></i>
-                            </a>
-                        </li>
 
                         <li class="nav-item nav-icon-hover-bg rounded-circle dropdown">
                             <a class="nav-link position-relative" href="javascript:void(0)" id="drop2"

@@ -72,7 +72,9 @@
             @include('web.template.header')
             <div class="body-wrapper">
                 <div class="container-fluid">
+                    @include('web.template.breadecumb')
                     @include('web.dashboard.index')
+                    @include('web.template.footer')
                 </div>
             </div>
             @include('web.template.rightmenu')
@@ -176,15 +178,6 @@
 
             // ✅ Setelah semua atribut terpasang → tampilkan halaman
             html.style.visibility = "visible";
-        });
-    </script>
-
-    <script>
-        console.log("Applied settings:", {
-            themeMode: document.documentElement.getAttribute("data-theme"),
-            colorTheme: document.documentElement.getAttribute("data-color-theme"),
-            boxed: document.documentElement.getAttribute("data-boxed-layout"),
-            card: document.documentElement.getAttribute("data-card")
         });
     </script>
 
