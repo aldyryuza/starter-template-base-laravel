@@ -103,6 +103,10 @@
 
     <script src="{{ asset('assets/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
 
+
+    {{--  --}}
+    <script src="{{ asset('assets/js/jquery/jquery.min.js') }}"></script>
+
     @if (isset($header_data))
         @php $version = str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'); @endphp
         @foreach ($header_data as $key => $v_head)

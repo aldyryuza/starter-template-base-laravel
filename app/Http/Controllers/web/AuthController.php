@@ -3,14 +3,8 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Master\ActivityLog;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Exception;
-use Illuminate\Support\Facades\Hash;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
 
     public $akses_menu = [];
@@ -19,13 +13,13 @@ class LoginController extends Controller
     public function getHeaderCss()
     {
         return array(
-            'js-1' => asset('assets/js/controllers/login.js'),
+            'js-1' => asset('assets/js/controllers/auth.js'),
         );
     }
 
     public function getTitleParent()
     {
-        return "Login";
+        return "Auth";
     }
 
     public function getTableName()
@@ -39,6 +33,14 @@ class LoginController extends Controller
         $put['title_top'] = 'Login';
         $put['title_parent'] = $this->getTitleParent();
         $put['header_data'] = $this->getHeaderCss();
-        return view('web.login.index', $put);
+        return view('web.auth.login', $put);
+    }
+    public function register()
+    {
+        $put['title_content'] = 'Register';
+        $put['title_top'] = 'Register';
+        $put['title_parent'] = $this->getTitleParent();
+        $put['header_data'] = $this->getHeaderCss();
+        return view('web.auth.register', $put);
     }
 }

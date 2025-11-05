@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\web\DashboardController;
-use App\Http\Controllers\web\LoginController;
+use App\Http\Controllers\web\AuthController;
 use App\Http\Controllers\web\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', [LoginController::class, 'index'])->name('login.index');
-Route::get('/login', [LoginController::class, 'index'])->name('login.index');
+Route::get('/', [AuthController::class, 'index'])->name('login.index');
+Route::get('/auth/login', [AuthController::class, 'index'])->name('login.index');
+Route::get('/auth/register', [AuthController::class, 'register'])->name('register.index');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-
 
 Route::get('/master/users', [UserController::class, 'index'])->name('users.index');
