@@ -9,17 +9,23 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <!-- Favicon icon-->
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/favicon.png') }}" />
 
     <!-- Core Css -->
-    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" />
+    {{-- loader --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/loader/loader.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.css') }}">
 
     <title>Modernize Bootstrap Admin</title>
 </head>
 
 <body>
+    <div class="loader"></div>
     <!-- Preloader -->
     <div class="preloader">
         <img src="{{ $title_top }}" alt="loader" class="lds-ripple img-fluid" />
@@ -67,21 +73,29 @@
                                     <span
                                         class="border-top w-100 position-absolute top-50 start-50 translate-middle"></span>
                                 </div>
-                                <form>
+                                <form class="needs-validation" id="loginForm" novalidate>
                                     <div class="mb-3">
                                         <label for="username" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="username" autofocus>
+                                        <input type="text" class="form-control" id="username" autofocus required>
+                                        {{-- <div class="valid-feedback">Looks good!</div> --}}
+                                        <div class="invalid-feedback">
+                                            Please choose a username.
+                                        </div>
                                     </div>
                                     <div class="mb-4">
                                         <label for="password" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="password">
+                                        <input type="password" class="form-control" id="password" required>
+                                        <div class="invalid-feedback">
+                                            Please choose a password.
+                                        </div>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                         <a class="text-primary fw-medium fs-3"
                                             href="authentication-forgot-password.html">Forgot Password ?</a>
                                     </div>
-                                    <button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">Sign
-                                        In</button>
+                                    <button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">
+                                        Sign In
+                                    </button>
                                     <div class="d-flex align-items-center justify-content-center">
                                         <p class="fs-4 mb-0 fw-medium">New to Modernize?</p>
                                         <a class="text-primary fw-medium ms-2"
@@ -288,7 +302,21 @@
     <script src="{{ asset('assets/js/theme/app.min.js') }}"></script>
 </body>
 
+<script src="{{ asset('assets/js/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/utils/url.js') }}"></script>
+<script src="{{ asset('assets/utils/message.js') }}"></script>
+{{-- <script src="{{ asset('assets/utils/validation.js') }}"></script> --}}
+<script src="{{ asset('assets/js/plugins/bootstrap-validation-init.js') }}"></script>
+<script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.js') }}"></script>
 
-<!-- Mirrored from bootstrapdemos.adminmart.com/modernize/dist/main/authentication-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 24 Oct 2025 07:32:28 GMT -->
+@if (isset($header_data))
+    @php $version = str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'); @endphp
+    @foreach ($header_data as $key => $v_head)
+        @php $data_key = explode('-', $key); @endphp
+        @if ($data_key[0] == 'js')
+            <script src="{{ $v_head }}?v={{ $version }}"></script>
+        @endif
+    @endforeach
+@endif
 
 </html>

@@ -1,26 +1,6 @@
 var at = document.documentElement.getAttribute("data-layout");
-if ((at = "vertical")) {
 
-    // ----------------------------------------
-    // Active 2 file at same time
-    // ----------------------------------------
-
-    var currentNewURL =
-        window.location != window.parent.location
-            ? document.referrer
-            : document.location.href;
-
-    var current_link = document.getElementById("get-url");
-    if (currentNewURL.includes("https://bootstrapdemos.adminmart.com/main/index.html")) {
-        current_link.setAttribute("href", "index-2.html");
-    } else if (currentNewURL.includes("https://bootstrapdemos.adminmart.com/index.html")) {
-        current_link.setAttribute("href", "index-2.html");
-    } else {
-        current_link.setAttribute("href", "#");
-    }
-    // end
-
-
+if (at == "vertical") {
     function findMatchingElement() {
         var currentUrl = window.location.href;
         var anchors = document.querySelectorAll("#sidebarnav a");
@@ -29,64 +9,45 @@ if ((at = "vertical")) {
                 return anchors[i];
             }
         }
-
-        return null; // Return null if no matching element is found
+        return null;
     }
+
     var elements = findMatchingElement();
+    if (elements) elements.classList.add("active");
 
-    // Do something with the matching element
-    if (elements) {
-        elements.classList.add("active");
-    }
-
-    document
-        .querySelectorAll("ul#sidebarnav ul li a.active")
-        .forEach(function (link) {
-            link.closest("ul").classList.add("in");
-            link.closest("ul").parentElement.classList.add("selected");
-        });
-
-    document.querySelectorAll("#sidebarnav li").forEach(function (li) {
-        const isActive = li.classList.contains("selected");
-        if (isActive) {
-            const anchor = li.querySelector("a");
-            if (anchor) {
-                anchor.classList.add("active");
-            }
-        }
+    // Expand submenu if current page inside it
+    document.querySelectorAll("ul#sidebarnav ul li a.active").forEach(function (link) {
+        link.closest("ul").classList.add("in");
+        link.closest("ul").parentElement.classList.add("selected");
     });
-    document.querySelectorAll("#sidebarnav a").forEach(function (link) {
+
+    // Collapse / Expand handler for .has-arrow links
+    document.querySelectorAll("#sidebarnav .has-arrow").forEach(function (link) {
         link.addEventListener("click", function (e) {
-            const isActive = this.classList.contains("active");
-            const parentUl = this.closest("ul");
-            if (!isActive) {
-                // hide any open menus and remove all other classes
-                parentUl.querySelectorAll("ul").forEach(function (submenu) {
-                    submenu.classList.remove("in");
-                });
-                parentUl.querySelectorAll("a").forEach(function (navLink) {
-                    navLink.classList.remove("active");
-                });
+            e.preventDefault();
+            const parentLi = this.closest("li");
+            const subMenu = this.nextElementSibling;
 
-                // open our new menu and add the open class
-                const submenu = this.nextElementSibling;
-                if (submenu) {
-                    submenu.classList.add("in");
-                }
+            if (subMenu && subMenu.classList.contains("collapse")) {
+                if (subMenu.classList.contains("in")) {
+                    subMenu.classList.remove("in");
+                    parentLi.classList.remove("selected");
+                } else {
+                    // Tutup semua menu lain
+                    document.querySelectorAll("#sidebarnav .collapse.in").forEach(function (openSub) {
+                        openSub.classList.remove("in");
+                        openSub.parentElement.classList.remove("selected");
+                    });
 
-                this.classList.add("active");
-            } else {
-                this.classList.remove("active");
-                parentUl.classList.remove("active");
-                const submenu = this.nextElementSibling;
-                if (submenu) {
-                    submenu.classList.remove("in");
+                    subMenu.classList.add("in");
+                    parentLi.classList.add("selected");
                 }
             }
         });
     });
 }
-if ((at = "horizontal")) {
+
+if (at == "horizontal") {
     function findMatchingElement() {
         var currentUrl = window.location.href;
         var anchors = document.querySelectorAll("#sidebarnavh ul#sidebarnav a");
@@ -95,18 +56,9 @@ if ((at = "horizontal")) {
                 return anchors[i];
             }
         }
-
-        return null; // Return null if no matching element is found
+        return null;
     }
+
     var elements = findMatchingElement();
-
-    if (elements) {
-        elements.classList.add("active");
-    }
-    document
-        .querySelectorAll("#sidebarnavh ul#sidebarnav a.active")
-        .forEach(function (link) {
-            link.closest("a").parentElement.classList.add("selected");
-            link.closest("ul").parentElement.classList.add("selected");
-        });
+    if (elements) elements.classList.add("active");
 }

@@ -3,80 +3,90 @@
 namespace App\Http\Controllers\api\template;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Master\PermissionUsers;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
 
 class TemplateMenuController extends Controller
 {
     public function generateMenuWeb()
     {
-        // $user_id = session('user_id');
-        $user_id = Session::get('user_id');
-        $dataMenu = DB::table('menu as m')
-            ->distinct()
-            ->select([
-                'm.id',
-                'm.name',
-                'm.icon',
-                'm.menu_alias',
-                'm.path as url',
-                'm.parent',
-                'm.sort',
-                'up.action',
-            ])
-            ->join('permission_users as up', 'up.menu', 'm.id')
-            ->join('users_group as ug', 'ug.id', 'up.user_group')
-            ->join('users as u', 'u.user_group', 'ug.id')
-            ->where('u.id', $user_id)
-            ->whereNull('up.deleted')
-            ->orderBy('m.parent')
-            ->orderBy('m.sort')
-            ->get()->toArray();
-        $dataFix = $dataMenu;
-        return $this->buildMenu($dataFix);
+        $userGroup = Session::get('user_group');
+
+        // Ambil permission dan relasi MasterMenu
+        $permissions = PermissionUsers::with('MasterMenu')
+            ->where('user_group', $userGroup)
+            ->whereNull('deleted')
+            ->get();
+
+        if ($permissions->isEmpty()) {
+            return "<li class='sidebar-item'><span class='hide-menu text-muted'>Tidak ada menu</span></li>";
+        }
+
+        // Ambil hanya menu valid dan urutkan berdasarkan sort
+        $menus = $permissions->pluck('MasterMenu')->filter()->sortBy('sort');
+
+        // Bangun struktur menu rekursif mulai dari menu tanpa parent
+        return $this->buildMenu($menus);
     }
 
-    public function buildMenu($rows, $parent = 0)
+    private function buildMenu($menus, $parentCode = '')
     {
-        $result = "";
-        foreach ($rows as $key => $row) {
-            if ($row->parent == $parent) {
-                $url = trim($row->url) == '' || trim($row->url) == '-' ? 'javascript: void(0);' : URL::to($row->url);
-                $url_has_index = $row->url . '/index';
-                $url_has_add = $row->url . '/add';
-                $url_has_ubah = $row->url . '/ubah';
-                $menu_togle = trim($row->url) == '-' || trim($row->url) == '' ? 'has-arrow' : '';
-                $menu_active = request()->is($row->url) || request()->is($url_has_index) || request()->is($url_has_add) || request()->is($url_has_ubah) ? 'active' : '';
-                $linkName = "<i class='" . $row->icon . "'></i>
-                <span>" . $row->nama . "</span>";
-                if ($row->parent != '') {
-                    $linkName = $row->menu_alias == '' ? $row->nama : $row->menu_alias;
-                }
-                $result .= "<li data_id='" . $row->id . "' id='left-menu-" . $row->id . "' parent_menu='" . $row->parent . "' class='menu-item parent-menu-" . $row->parent . " " . $menu_active . "' >
-                <a  href='" . $url . "' class='waves-effect " . $menu_togle . "'>
-                    " . $linkName . "
-                </a>
-                ";
-                $result .= "
-                        <ul class='sub-menu' aria-expanded='false'>
-                    ";
-                if ($this->hasChild($rows, $row->id)) {
-                    $result .= $this->buildMenu($rows, $row->id);
-                }
-                $result .= "</ul>";
-                $result .= "</li>";
+        $html = '';
+
+        foreach ($menus as $menu) {
+            if (!is_object($menu)) continue;
+
+            // Bandingkan parent berdasarkan menu_code
+            if (($menu->parent ?? '') != $parentCode) continue;
+
+            $hasChild = $this->hasChild($menus, $menu->menu_code);
+
+            // Tentukan URL
+            $url = (!empty($menu->path) && $menu->path != '-' && $menu->path != '/')
+                ? url($menu->path)
+                : 'javascript:void(0)';
+
+            $icon = $menu->icon ?: 'bx bx-circle';
+            $menuName = e($menu->name ?: '-');
+
+            if ($hasChild) {
+                // Menu dengan sub-menu
+                $html .= "
+                <li class='sidebar-item'>
+                    <a class='sidebar-link has-arrow' href='javascript:void(0)' aria-expanded='false'>
+                        <span class='d-flex'>
+                            <i class='{$icon}'></i>
+                        </span>
+                        <span class='hide-menu'>{$menuName}</span>
+                    </a>
+                    <ul aria-expanded='false' class='collapse first-level'>
+                        " . $this->buildMenu($menus, $menu->menu_code) . "
+                    </ul>
+                </li>";
+            } else {
+                // Submenu atau menu tanpa anak
+                $html .= "
+                <li class='sidebar-item'>
+                    <a href='{$url}' class='sidebar-link'>
+                        <div class='round-16 d-flex align-items-center justify-content-center'>
+                            <i class='{$icon}'></i>
+                        </div>
+                        <span class='hide-menu'>{$menuName}</span>
+                    </a>
+                </li>";
             }
         }
-        return $result;
+
+        return $html;
     }
 
-    public function hasChild($rows, $id)
+    private function hasChild($menus, $menuCode)
     {
-        foreach ($rows as $key => $row) {
-            if ($row->parent == $id)
+        foreach ($menus as $menu) {
+            if (!is_object($menu)) continue;
+            if (($menu->parent ?? '') == $menuCode) {
                 return true;
+            }
         }
         return false;
     }

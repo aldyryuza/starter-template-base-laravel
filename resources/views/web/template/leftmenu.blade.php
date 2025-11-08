@@ -16,46 +16,7 @@
 
         <nav class="sidebar-nav scroll-sidebar" data-simplebar>
             <ul id="sidebarnav">
-                <!-- ---------------------------------- -->
-                <!-- Home -->
-                <!-- ---------------------------------- -->
-                <li class="nav-small-cap">
-                    <i class="bx bx-home nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Home</span>
-                </li>
-                <!-- ---------------------------------- -->
-                <!-- Dashboard -->
-                <!-- ---------------------------------- -->
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" id="get-url" aria-expanded="false">
-                        <span>
-                            <i class="bx bx-home"></i>
-                        </span>
-                        <span class="hide-menu">Dashboard</span>
-                    </a>
-                </li>
-
-
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
-                        <span class="d-flex">
-                            <i class="bx bx-user"></i>
-                        </span>
-                        <span class="hide-menu">Master</span>
-                    </a>
-                    <ul aria-expanded="false" class="collapse first-level">
-                        <li class="sidebar-item">
-                            <a href="{{ url('master/users') }}" class="sidebar-link">
-                                <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="bx bx-circle"></i>
-                                </div>
-                                <span class="hide-menu">Users</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
+                {!! app(\App\Http\Controllers\api\template\TemplateMenuController::class)->generateMenuWeb() !!}
             </ul>
         </nav>
 
@@ -70,51 +31,11 @@
                     <span class="fs-2">Designer</span>
                 </div>
                 <button class="border-0 bg-transparent text-primary ms-auto" tabindex="0" type="button"
-                    aria-label="logout" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="logout">
+                    aria-label="logout" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="logout"
+                    onclick="Auth.signOut()">
                     <i class="bx bx-log-out fs-6"></i>
                 </button>
             </div>
         </div>
     </div>
 </aside>
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // ambil URL saat ini (tanpa parameter GET)
-        const currentURL = window.location.pathname.split("/").pop();
-
-        // ambil semua link di sidebar
-        const sidebarLinks = document.querySelectorAll(".sidebar-link");
-
-        sidebarLinks.forEach(link => {
-            const href = link.getAttribute("href");
-
-            // skip jika href kosong atau javascript:void(0)
-            if (!href || href === "#" || href.startsWith("javascript")) return;
-
-            // jika cocok dengan halaman saat ini
-            if (currentURL === href || window.location.href.includes(href)) {
-                // tambahkan class active pada link
-                link.classList.add("active");
-
-                // buka parent submenu kalau ada
-                const parentItem = link.closest(".collapse");
-                if (parentItem) {
-                    parentItem.classList.add("show");
-
-                    // cari parent <li> yang punya class has-arrow
-                    const parentTrigger = parentItem.previousElementSibling;
-                    if (parentTrigger && parentTrigger.classList.contains("has-arrow")) {
-                        parentTrigger.setAttribute("aria-expanded", "true");
-                        parentTrigger.classList.add("active");
-                    }
-                }
-
-                // tambahkan active juga pada parent .sidebar-item
-                const li = link.closest(".sidebar-item");
-                if (li) li.classList.add("active");
-            }
-        });
-    });
-</script>

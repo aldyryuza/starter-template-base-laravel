@@ -49,6 +49,11 @@
         }
     </style>
 
+
+    {{-- loader --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/loader/loader.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.css') }}">
+
     @if (isset($header_data))
         @php $version = str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'); @endphp
         @foreach ($header_data as $key => $v_head)
@@ -61,6 +66,7 @@
 </head>
 
 <body>
+    <div class="loader"></div>
     <!-- Loader -->
     <div class="preloader">
         <img src="{{ asset('assets/images/logos/favicon.png') }}" alt="loader" class="lds-ripple img-fluid" />
@@ -106,7 +112,14 @@
 
     {{--  --}}
     <script src="{{ asset('assets/js/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/utils/url.js') }}"></script>
+    <script src="{{ asset('assets/utils/message.js') }}"></script>
+    {{-- <script src="{{ asset('assets/utils/validation.js') }}"></script> --}}
 
+    <script src="{{ asset('assets/js/plugins/bootstrap-validation-init.js') }}"></script>
+    <script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.js') }}"></script>
+
+    <script src="{{ asset('assets/js/controllers/auth.js') }}"></script>
     @if (isset($header_data))
         @php $version = str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'); @endphp
         @foreach ($header_data as $key => $v_head)
