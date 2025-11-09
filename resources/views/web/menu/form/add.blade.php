@@ -1,8 +1,8 @@
 @php
-    $currentPath = '/' . request()->path(); // contoh: /dashboard
+    $currentPath = '/' . request()->path();
 @endphp
 
-@if (hasMenuAccess($akses ?? null, $currentPath, 'read'))
+@if (hasMenuAccess($akses ?? null, $currentPath, 'create'))
     {!! generateBreadcrumb() !!}
 
     <div class="row">
@@ -13,14 +13,12 @@
                     <p class="card-text">
                         Welcome to the {{ $data_page['title'] }}!
                     </p>
-
-                    @if (hasMenuAccess($akses ?? null, $currentPath, 'create'))
-                        <button class="btn btn-primary">Tambah Data</button>
-                    @endif
                 </div>
             </div>
         </div>
     </div>
+
+    @include('web.menu.modal.index')
 @else
     @include('errors.no_akes')
 @endif

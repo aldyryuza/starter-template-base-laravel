@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\web\DashboardController;
 use App\Http\Controllers\web\AuthController;
+use App\Http\Controllers\web\MenuController;
 use App\Http\Controllers\web\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +19,9 @@ Route::post('/auth/save_session', [AuthController::class, 'save_session'])->name
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 Route::get('/master/users', [UserController::class, 'index'])->name('users.index');
+
+// MENU
+Route::get('/settings/menu', [MenuController::class, 'index'])->name('settings.menu.index');
+Route::get('/settings/menu/create', [MenuController::class, 'create'])->name('settings.menu.create');
+Route::get('/settings/menu/edit', [MenuController::class, 'edit'])->name('settings.menu.edit');
+Route::get('/settings/menu/detail', [MenuController::class, 'detail'])->name('settings.menu.edit');

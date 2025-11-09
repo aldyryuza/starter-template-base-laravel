@@ -43,6 +43,8 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/iconify-icons.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/flag-icons.css') }}" />
 
+    <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" />
+
     <style>
         .wd-column {
             width: 200px !important;
@@ -78,7 +80,7 @@
             @include('web.template.header')
             <div class="body-wrapper">
                 <div class="container-fluid">
-                    @include('web.template.breadecumb')
+                    {{-- @include('web.template.breadecumb') --}}
                     {!! $view_file !!}
                     @include('web.template.footer')
                 </div>
@@ -118,8 +120,18 @@
 
     <script src="{{ asset('assets/js/plugins/bootstrap-validation-init.js') }}"></script>
     <script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js') }}"></script>
+    <script src="{{ asset('assets/cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets/cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('assets/cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets/cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js') }}"></script>
+
 
     <script src="{{ asset('assets/js/controllers/auth.js') }}"></script>
+    <script src="{{ asset('assets/js/controllers/token.js') }}"></script>
+
     @if (isset($header_data))
         @php $version = str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'); @endphp
         @foreach ($header_data as $key => $v_head)

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 
 function MergeAksesMenu($permission)
 {
@@ -23,36 +25,69 @@ function MergeAksesMenu($permission)
 }
 
 if (!function_exists('hasMenuAccess')) {
-    /**
-     * Cek apakah user punya akses ke path tertentu dan (opsional) action tertentu
-     *
-     * @param  object|null  $akses   Object berisi is_valid dan akses_menu
-     * @param  string       $path    Path URL (misal: '/dashboard')
-     * @param  string|null  $action  (opsional) Aksi yang ingin dicek: 'read', 'update', dll
-     * @return bool
-     */
-    function hasMenuAccess($akses, $path, $action = null)
+    function hasMenuAccess($akses, $currentPath, $action = 'read')
     {
-        // Jika belum login atau tidak punya data akses
-        if (!$akses || empty($akses->akses_menu) || !$akses->is_valid) {
+        if (!$akses || !$akses->is_valid) {
             return false;
         }
 
-        foreach ($akses->akses_menu as $menu) {
-            // pastikan ada path
-            if (isset($menu->path) && $menu->path === $path) {
-                // kalau tidak butuh cek action → langsung true
-                if ($action === null) {
-                    return true;
-                }
+        // Pastikan path selalu diawali dengan "/"
+        $currentPath = '/' . ltrim($currentPath, '/');
 
-                // kalau mau cek action
-                if (!empty($menu->action) && in_array($action, $menu->action)) {
+        foreach ($akses->akses_menu as $menu) {
+            // Gunakan regex agar cocok dengan child path seperti /settings/menu/add
+            if (preg_match("#^" . preg_quote($menu->path, '#') . "(/|$)#", $currentPath)) {
+                if (in_array($action, $menu->action)) {
                     return true;
                 }
             }
         }
 
         return false;
+    }
+}
+
+
+if (!function_exists('generateBreadcrumb')) {
+    function generateBreadcrumb()
+    {
+        $segments = Request::segments(); // contoh: ['settings', 'menu', 'add']
+        if (empty($segments)) {
+            return '';
+        }
+
+        $breadcrumbHtml = '<nav class="py-2" aria-label="breadcrumb">';
+        $breadcrumbHtml .= '<ol class="breadcrumb mb-0">';
+
+        $path = '';
+
+        foreach ($segments as $index => $segment) {
+            $path .= '/' . $segment;
+            $isLast = $index === array_key_last($segments);
+
+            // Label rapi
+            $label = ucfirst(str_replace(['-', '_'], ' ', $segment));
+
+            // Cek apakah path ini terdaftar di tabel menu
+            $menuExists = DB::table('menu')->where('path', $path)->exists();
+
+            if ($isLast) {
+                // item terakhir = aktif
+                $breadcrumbHtml .= '<li class="breadcrumb-item active" aria-current="page">' . e($label) . '</li>';
+            } else {
+                // Jika parent ada di DB, maka bisa diklik
+                if ($menuExists) {
+                    $breadcrumbHtml .= '<li class="breadcrumb-item"><a href="' . URL::to($path) . '">' . e($label) . '</a></li>';
+                } else {
+                    // Kalau tidak ada di DB, jadikan non-clickable
+                    $breadcrumbHtml .= '<li class="breadcrumb-item text-muted">' . e($label) . '</li>';
+                }
+            }
+        }
+
+        $breadcrumbHtml .= '</ol>';
+        $breadcrumbHtml .= '</nav>';
+
+        return $breadcrumbHtml;
     }
 }

@@ -34,6 +34,9 @@ class UserController extends Controller
         $data['akses'] = $this->akses_menu;
 
         $data['data'] = [];
+        $data['data_page'] = [
+            'title' => 'User',
+        ];
         $view = view('web.user.index', $data);
         $put['title_content'] = 'User';
         $put['title_top'] = 'User';
