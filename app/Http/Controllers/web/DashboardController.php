@@ -31,6 +31,7 @@ class DashboardController extends Controller
     public function index()
     {
         $this->akses_menu = json_decode(session('akses_menu'));
+        // dd($this->akses_menu);
         $data['akses'] = $this->akses_menu;
 
         $data['data'] = [];

@@ -79,7 +79,7 @@
             <div class="body-wrapper">
                 <div class="container-fluid">
                     @include('web.template.breadecumb')
-                    @include('web.dashboard.index')
+                    {!! $view_file !!}
                     @include('web.template.footer')
                 </div>
             </div>

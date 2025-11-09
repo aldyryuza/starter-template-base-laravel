@@ -14,7 +14,7 @@ class UserController extends Controller
     public function getHeaderCss()
     {
         return array(
-            'js-1' => asset('assets/js/controllers/dashboard.js'),
+            'js-1' => asset('assets/js/controllers/users.js'),
         );
     }
 

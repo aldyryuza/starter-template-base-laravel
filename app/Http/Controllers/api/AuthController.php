@@ -29,13 +29,11 @@ class AuthController extends Controller
         ];
 
         try {
-            $user = User::where('username', $request->username)->first();
-
+            $user = User::with(['UserGroup.PermissionUser.MasterMenu'])->where('username', $request->username)->first();
             if (!$user || !Hash::check($request->password, $user->password)) {
                 $result['message'] = 'Username atau Password salah';
                 return response()->json($result, 401);
             }
-
             // Generate JWT token
             $token = JWTAuth::fromUser($user);
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Master\UserGroup;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -24,5 +25,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function  UserGroup()
+    {
+        return $this->belongsTo(UserGroup::class, 'user_group', 'id');
     }
 }

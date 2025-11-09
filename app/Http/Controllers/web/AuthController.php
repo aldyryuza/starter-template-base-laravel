@@ -31,6 +31,10 @@ class AuthController extends Controller
 
     public function index()
     {
+        // if session has id
+        if (Session::has('id')) {
+            return redirect()->back();
+        }
         $put['title_content'] = 'Login';
         $put['title_top'] = 'Login';
         $put['title_parent'] = $this->getTitleParent();
@@ -39,6 +43,9 @@ class AuthController extends Controller
     }
     public function register()
     {
+        if (Session::has('id')) {
+            return redirect()->back();
+        }
         $put['title_content'] = 'Register';
         $put['title_top'] = 'Register';
         $put['title_parent'] = $this->getTitleParent();
@@ -51,6 +58,7 @@ class AuthController extends Controller
         $data = $request->all();
         // dd(json_decode($data['user']));
         $data['user'] = json_decode($data['user']);
+        $akses_menu = MergeAksesMenu($data['user']->user_group->permission_user);
 
         // seesion put
         Session::put('id', $data['user']->id);
@@ -59,8 +67,15 @@ class AuthController extends Controller
         Session::put('username', $data['user']->username);
         Session::put('user_group', $data['user']->user_group);
         Session::put('employee_code', $data['user']->employee_code);
+        Session::put('akses_menu', json_encode($akses_menu));
 
         $data['is_valid'] = true;
         return response()->json($data);
+    }
+
+    public function logout()
+    {
+        Session::flush();
+        return redirect()->route('auth.login');
     }
 }

@@ -27,7 +27,7 @@ let Auth = {
             data: params,
             dataType: "json",
             beforeSend: () => {
-                message.loadingProses('Proses Simpan Data...');
+                message.loadingProses('Proses Login...');
             },
             success: function (response) {
                 message.closeLoading();
@@ -101,7 +101,7 @@ let Auth = {
                 });
 
                 setTimeout(() => {
-                    window.location.href = url.base_url('auth/login');
+                    window.location.href = url.base_url('auth/logout');
                 }, 1500);
             }
         });

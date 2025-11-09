@@ -10,7 +10,11 @@ class TemplateMenuController extends Controller
 {
     public function generateMenuWeb()
     {
-        $userGroup = Session::get('user_group');
+        // jika session tidak ada, kembali
+        if (!Session::has('user_group')) {
+            return "<li class='sidebar-item'><span class='hide-menu text-muted'>Tidak ada menu</span></li>";
+        }
+        $userGroup = Session::get('user_group')->id;
 
         // Ambil permission dan relasi MasterMenu
         $permissions = PermissionUsers::with('MasterMenu')
