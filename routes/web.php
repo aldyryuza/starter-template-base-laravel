@@ -23,5 +23,5 @@ Route::get('/master/users', [UserController::class, 'index'])->name('users.index
 // MENU
 Route::get('/settings/menu', [MenuController::class, 'index'])->name('settings.menu.index');
 Route::get('/settings/menu/create', [MenuController::class, 'create'])->name('settings.menu.create');
-Route::get('/settings/menu/edit', [MenuController::class, 'edit'])->name('settings.menu.edit');
-Route::get('/settings/menu/detail', [MenuController::class, 'detail'])->name('settings.menu.edit');
+Route::get('/settings/menu/edit/{id}', [MenuController::class, 'edit'])->name('settings.menu.edit');
+Route::get('/settings/menu/detail/{id}', [MenuController::class, 'detail'])->name('settings.menu.detail');

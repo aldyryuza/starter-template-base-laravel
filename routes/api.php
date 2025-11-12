@@ -14,6 +14,8 @@ Route::middleware(['jwt.auth'])->group(function () {
 
     // MENU
     Route::post('/settings/menu/getData', [MenuController::class, 'getData']);
+    Route::post('/settings/menu/submit', [MenuController::class, 'submit']);
+    Route::delete('/settings/menu/delete/{id}', [MenuController::class, 'delete']);
 });
 
 

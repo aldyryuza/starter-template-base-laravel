@@ -91,3 +91,14 @@ if (!function_exists('generateBreadcrumb')) {
         return $breadcrumbHtml;
     }
 }
+
+
+function generateMenuCode()
+{
+    $data = DB::table('menu')->orderByDesc('id')->first();
+    // dd($data);
+    $no = $data->id + 1;
+    // output : M0001
+
+    return 'M' . str_pad($no, 4, '0', STR_PAD_LEFT);
+}

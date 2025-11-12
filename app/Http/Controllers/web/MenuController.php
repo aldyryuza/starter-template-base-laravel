@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\Menu;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
@@ -51,12 +52,51 @@ class MenuController extends Controller
         $this->akses_menu = json_decode(session('akses_menu'));
         // dd($this->akses_menu);
         $data['akses'] = $this->akses_menu;
-
         $data['data'] = [];
+        $data['data_menu'] = Menu::where('path', '/')->get();
         $data['data_page'] = [
             'title' => 'Menu Add',
+            'action' => 'add',
         ];
-        $view = view('web.menu.form.add', $data);
+        $view = view('web.menu.form.form', $data);
+        $put['title_content'] = 'Menu';
+        $put['title_top'] = 'Menu';
+        $put['title_parent'] = $this->getTitleParent();
+        $put['view_file'] = $view;
+        $put['header_data'] = $this->getHeaderCss();
+        return view('web.template.main', $put);
+    }
+    public function edit($id)
+    {
+        $this->akses_menu = json_decode(session('akses_menu'));
+        // dd($this->akses_menu);
+        $data['akses'] = $this->akses_menu;
+        $data['data'] = Menu::find($id);
+        $data['data_menu'] = Menu::where('path', '/')->get();
+        $data['data_page'] = [
+            'title' => 'Menu Edit',
+            'action' => 'edit',
+        ];
+        $view = view('web.menu.form.form', $data);
+        $put['title_content'] = 'Menu';
+        $put['title_top'] = 'Menu';
+        $put['title_parent'] = $this->getTitleParent();
+        $put['view_file'] = $view;
+        $put['header_data'] = $this->getHeaderCss();
+        return view('web.template.main', $put);
+    }
+    public function detail($id)
+    {
+        $this->akses_menu = json_decode(session('akses_menu'));
+        // dd($this->akses_menu);
+        $data['akses'] = $this->akses_menu;
+        $data['data'] = Menu::find($id);
+        $data['data_menu'] = Menu::where('path', '/')->get();
+        $data['data_page'] = [
+            'title' => 'Menu Detail',
+            'action' => 'detail',
+        ];
+        $view = view('web.menu.form.form', $data);
         $put['title_content'] = 'Menu';
         $put['title_top'] = 'Menu';
         $put['title_parent'] = $this->getTitleParent();

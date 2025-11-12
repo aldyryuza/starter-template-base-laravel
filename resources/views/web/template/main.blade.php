@@ -44,6 +44,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/flag-icons.css') }}" />
 
     <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
 
     <style>
         .wd-column {
@@ -116,7 +117,7 @@
     <script src="{{ asset('assets/js/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/utils/url.js') }}"></script>
     <script src="{{ asset('assets/utils/message.js') }}"></script>
-    {{-- <script src="{{ asset('assets/utils/validation.js') }}"></script> --}}
+    <script src="{{ asset('assets/utils/validation.js') }}"></script>
 
     <script src="{{ asset('assets/js/plugins/bootstrap-validation-init.js') }}"></script>
     <script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.js') }}"></script>
@@ -128,9 +129,14 @@
     <script src="{{ asset('assets/cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('assets/cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js') }}"></script>
 
+    <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
+
 
     <script src="{{ asset('assets/js/controllers/auth.js') }}"></script>
     <script src="{{ asset('assets/js/controllers/token.js') }}"></script>
+
+    <script src="{{ asset('assets/js/bootbox/bootbox.js') }}"></script>
 
     @if (isset($header_data))
         @php $version = str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'); @endphp

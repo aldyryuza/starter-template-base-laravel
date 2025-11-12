@@ -2,7 +2,7 @@ var url = {
     base_url: function (module) {
         // var url_host = 'anomali';
         var url_protocol = window.location.protocol;
-        // return url_protocol + '/' + module + '/';
+        return url_protocol + '/' + module + '/';
         // DEVELOPMENT
         // return url_protocol + '/public/' + module + '/';
         // LOCAL

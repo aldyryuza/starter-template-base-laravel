@@ -38,22 +38,21 @@ class MenuController extends Controller
     {
         $data = $request->all();
         $result['is_valid'] = false;
+        $data['menu_code'] = generateMenuCode();
+        // dd($data);
         DB::beginTransaction();
         try {
-            //code...
-            list($nik, $name) = explode('-', $data['nik']);
-            $roles = $data['id'] == '' ? new Users() : Users::find($data['id']);
-            $roles->user_group = $data['roles'];
-            $roles->username = $data['username'];
-            $roles->password = Hash::make($request->get('password'));
-            $roles->nik = trim($nik);
-            $roles->save();
-            $user = User::create([
-                'name' => $request->get('name'),
-                'username' => $request->get('username'),
-                'password' => Hash::make($request->get('password')),
-            ]);
-            $token = JWTAuth::fromUser($user);
+            $data_insert = $data['id'] == '' ? new Menu() : Menu::find($data['id']);
+            $data_insert->name = $data['name'];
+            $data_insert->icon = $data['icon'];
+            $data_insert->path = $data['path'];
+            $data_insert->parent = $data['parent_menu'] ?? null;
+            $data_insert->sort = $data['sort'] ?? null;
+            $data_insert->routing_mobile = $data['routing_mobile'] ?? null;
+            $data_insert->icon_mobile = $data['icon_mobile'] ?? null;
+            $data_insert->menu_code = $data['menu_code'] ?? null;
+            $data_insert->routing = $data['is_routing'] ?? null;
+            $data_insert->save();
 
             DB::commit();
             $result['is_valid'] = true;
@@ -98,10 +97,23 @@ class MenuController extends Controller
         return response()->json($data);
     }
 
-    public function delete(Request $request)
+    public function delete($id)
     {
-        $data = $request->all();
-        return view('web.users.modal.confirmdelete', $data);
+        $result['is_valid'] = false;
+        DB::beginTransaction();
+        try {
+            $menu = Menu::find($id);
+            $menu->deleted = date('Y-m-d H:i:s');
+            $menu->save();
+
+            DB::commit();
+            $result['is_valid'] = true;
+        } catch (\Throwable $th) {
+            //throw $th;
+            $result['message'] = $th->getMessage();
+            DB::rollBack();
+        }
+        return response()->json($result);
     }
 
     public function showDataKaryawan(Request $request)
