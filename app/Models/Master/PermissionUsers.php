@@ -14,4 +14,9 @@ class PermissionUsers extends Model
     {
         return $this->belongsTo(Menu::class, 'menu', 'id');
     }
+
+    public function UserGroup()
+    {
+        return $this->belongsTo(UserGroup::class, 'user_group', 'id');
+    }
 }

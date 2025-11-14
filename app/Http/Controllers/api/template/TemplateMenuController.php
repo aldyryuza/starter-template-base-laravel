@@ -19,6 +19,10 @@ class TemplateMenuController extends Controller
         // Ambil permission dan relasi MasterMenu
         $permissions = PermissionUsers::with('MasterMenu')
             ->where('user_group', $userGroup)
+            // whereHas MasterMenu deleted null
+            ->whereHas('MasterMenu', function ($query) {
+                $query->whereNull('deleted');
+            })
             ->whereNull('deleted')
             ->get();
 
