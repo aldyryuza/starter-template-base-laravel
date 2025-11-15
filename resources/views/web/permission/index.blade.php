@@ -4,6 +4,10 @@
 
 @if (hasMenuAccess($akses ?? null, $currentPath, 'read'))
     {!! generateBreadcrumb() !!}
+    <input type="hidden" name="update" id="update"
+        value="{{ hasMenuAccess($akses ?? null, $currentPath, 'update') ? 1 : 0 }}">
+    <input type="hidden" name="delete" id="delete"
+        value="{{ hasMenuAccess($akses ?? null, $currentPath, 'delete') ? 1 : 0 }}">
 
     <div class="row">
         <div class="col-12">

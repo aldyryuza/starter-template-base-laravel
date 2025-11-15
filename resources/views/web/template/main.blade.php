@@ -81,7 +81,6 @@
             @include('web.template.header')
             <div class="body-wrapper">
                 <div class="container-fluid">
-                    {{-- @include('web.template.breadecumb') --}}
                     {!! $view_file !!}
                     @include('web.template.footer')
                 </div>

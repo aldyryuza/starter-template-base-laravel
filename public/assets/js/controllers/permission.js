@@ -1,3 +1,7 @@
+// make a global variable const update dan const delete
+const update = $('#update').val();
+const del = $('#delete').val();
+
 let Permission = {
     module: () => 'settings/permissions',
     moduleApi: () => 'api/' + Permission.module(),
@@ -73,17 +77,27 @@ let Permission = {
                     searchable: false,
                     className: 'text-center align-middle',
                     render: function (data, type, row) {
+                        let button_action = '';
+                        if (update == 1) {
+                            button_action += `
+                                <button class="btn btn-sm btn-info" title="Detail" onclick="Permission.detail(${row.id})">
+                                    <i class="bx bx-detail"></i>
+                                </button>
+                                <button class="btn btn-sm btn-warning" title="Edit" onclick="Permission.edit(${row.id})">
+                                    <i class="bx bx-edit"></i>
+                                </button>
+                            `;
+                        }
+                        if (del == 1) {
+                            button_action += `
+                            <button class="btn btn-sm btn-danger" title="Hapus" data-id="${row.id}" onclick="Permission.delete(this,event)">
+                                <i class="bx bx-trash"></i>
+                            </button>
+                            `;
+                        }
                         return `
                     <div class="d-flex justify-content-center gap-1">
-                        <button class="btn btn-sm btn-info" title="Detail" onclick="Permission.detail(${row.id})">
-                            <i class="bx bx-detail"></i>
-                        </button>
-                        <button class="btn btn-sm btn-warning" title="Edit" onclick="Permission.edit(${row.id})">
-                            <i class="bx bx-edit"></i>
-                        </button>
-                        <button class="btn btn-sm btn-danger" title="Hapus" data-id="${row.id}" onclick="Permission.delete(this,event)">
-                            <i class="bx bx-trash"></i>
-                        </button>
+                        ${button_action}
                     </div>
                 `;
                     }
