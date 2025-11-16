@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\master\DepartementController;
 use App\Http\Controllers\api\master\RolesController;
 use App\Http\Controllers\api\MenuController;
 use App\Http\Controllers\api\PermissionController;
@@ -26,6 +27,10 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::post('/master/roles/getData', [RolesController::class, 'getData']);
     Route::post('/master/roles/submit', [RolesController::class, 'submit']);
     Route::delete('/master/roles/delete/{id}', [RolesController::class, 'delete']);
+    // DEPARTEMENT
+    Route::post('/master/department/getData', [DepartementController::class, 'getData']);
+    Route::post('/master/department/submit', [DepartementController::class, 'submit']);
+    Route::delete('/master/department/delete/{id}', [DepartementController::class, 'delete']);
 });
 
 

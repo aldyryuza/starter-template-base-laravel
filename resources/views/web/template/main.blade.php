@@ -27,7 +27,7 @@
     </script>
 
     <meta charset="utf-8" />
-    <title>{{ config('app.name', 'Laravel') . (isset($title_top) ? $title_top : '') }}</title>
+    <title>{{ env('APP_NAME', 'Laravel') . ' - ' . (isset($title_top) ? $title_top : '') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta content="Notaris APP" name="description" />
