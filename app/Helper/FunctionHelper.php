@@ -102,3 +102,28 @@ function generateMenuCode()
 
     return 'M' . str_pad($no, 4, '0', STR_PAD_LEFT);
 }
+
+function generateColumnCode($nama_tabel, $nama_kolom, $code)
+{
+    $currentYm = date('ym'); // ex: 2503
+
+    // Ambil semua data di bulan ini yang belum dihapus
+    $lastRecord = DB::table($nama_tabel)
+        ->whereNull('deleted')
+        ->where($nama_kolom, 'like', $code . '-' . $currentYm . '-%')
+        ->orderByDesc($nama_kolom)
+        ->first();
+
+    if ($lastRecord) {
+        // Ambil bagian nomor urut dari kode terakhir
+        $lastCode = $lastRecord->{$nama_kolom};
+        $parts = explode('-', $lastCode);
+        $lastNumber = (int) end($parts); // ambil angka terakhir
+        $newNumber = $lastNumber + 1;
+    } else {
+        $newNumber = 1;
+    }
+
+    // Format: INV-2503-0001
+    return $code . '-' . $currentYm . '-' . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
+}

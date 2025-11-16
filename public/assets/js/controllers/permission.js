@@ -61,7 +61,7 @@ let Permission = {
                     if (xhr.status === 401) {
                         alert('Token tidak valid atau sesi habis. Silakan login kembali.');
                         localStorage.removeItem('auth_token');
-                        window.location.href = url.base_url('auth') + 'login';
+                        window.location.href = url.base_url('auth') + 'logout';
                     }
                 }
             },

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\master\RolesController;
 use App\Http\Controllers\api\MenuController;
 use App\Http\Controllers\api\PermissionController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,10 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::post('/settings/permissions/getData', [PermissionController::class, 'getData']);
     Route::post('/settings/permissions/submit', [PermissionController::class, 'submit']);
     Route::delete('/settings/permissions/delete/{id}', [PermissionController::class, 'delete']);
+    // ROLES
+    Route::post('/master/roles/getData', [RolesController::class, 'getData']);
+    Route::post('/master/roles/submit', [RolesController::class, 'submit']);
+    Route::delete('/master/roles/delete/{id}', [RolesController::class, 'delete']);
 });
 
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\web\DashboardController;
 use App\Http\Controllers\web\AuthController;
+use App\Http\Controllers\web\master\RolesController;
 use App\Http\Controllers\web\MenuController;
 use App\Http\Controllers\web\PermissionController;
 use App\Http\Controllers\web\UserController;
@@ -31,3 +32,8 @@ Route::get('/settings/permissions', [PermissionController::class, 'index'])->nam
 Route::get('/settings/permissions/create', [PermissionController::class, 'create'])->name('settings.permission.create');
 Route::get('/settings/permissions/edit/{id}', [PermissionController::class, 'edit'])->name('settings.permission.edit');
 Route::get('/settings/permissions/detail/{id}', [PermissionController::class, 'detail'])->name('settings.permission.detail');
+// ROLES
+Route::get('/master/roles', [RolesController::class, 'index'])->name('master.roles.index');
+Route::get('/master/roles/create', [RolesController::class, 'create'])->name('master.roles.create');
+Route::get('/master/roles/edit/{id}', [RolesController::class, 'edit'])->name('master.roles.edit');
+Route::get('/master/roles/detail/{id}', [RolesController::class, 'detail'])->name('master.roles.detail');
