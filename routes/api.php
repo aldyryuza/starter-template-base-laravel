@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\master\DepartementController;
+use App\Http\Controllers\api\master\JobTitleController;
 use App\Http\Controllers\api\master\RolesController;
 use App\Http\Controllers\api\MenuController;
 use App\Http\Controllers\api\PermissionController;
@@ -31,6 +32,10 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::post('/master/department/getData', [DepartementController::class, 'getData']);
     Route::post('/master/department/submit', [DepartementController::class, 'submit']);
     Route::delete('/master/department/delete/{id}', [DepartementController::class, 'delete']);
+    // JOB TITLE
+    Route::post('/master/job_title/getData', [JobTitleController::class, 'getData']);
+    Route::post('/master/job_title/submit', [JobTitleController::class, 'submit']);
+    Route::delete('/master/job_title/delete/{id}', [JobTitleController::class, 'delete']);
 });
 
 

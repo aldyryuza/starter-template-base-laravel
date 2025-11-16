@@ -3,6 +3,7 @@
 use App\Http\Controllers\web\DashboardController;
 use App\Http\Controllers\web\AuthController;
 use App\Http\Controllers\web\master\DepartementController;
+use App\Http\Controllers\web\master\JobTitleController;
 use App\Http\Controllers\web\master\RolesController;
 use App\Http\Controllers\web\MenuController;
 use App\Http\Controllers\web\PermissionController;
@@ -43,3 +44,8 @@ Route::get('/master/department', [DepartementController::class, 'index'])->name(
 Route::get('/master/department/create', [DepartementController::class, 'create'])->name('master.department.create');
 Route::get('/master/department/edit/{id}', [DepartementController::class, 'edit'])->name('master.department.edit');
 Route::get('/master/department/detail/{id}', [DepartementController::class, 'detail'])->name('master.department.detail');
+// DEPARTEMENT
+Route::get('/master/job_title', [JobTitleController::class, 'index'])->name('master.job_title.index');
+Route::get('/master/job_title/create', [JobTitleController::class, 'create'])->name('master.job_title.create');
+Route::get('/master/job_title/edit/{id}', [JobTitleController::class, 'edit'])->name('master.job_title.edit');
+Route::get('/master/job_title/detail/{id}', [JobTitleController::class, 'detail'])->name('master.job_title.detail');
