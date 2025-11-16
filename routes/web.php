@@ -5,6 +5,7 @@ use App\Http\Controllers\web\AuthController;
 use App\Http\Controllers\web\master\DepartementController;
 use App\Http\Controllers\web\master\JobTitleController;
 use App\Http\Controllers\web\master\RolesController;
+use App\Http\Controllers\web\master\SubsidiaryController;
 use App\Http\Controllers\web\MenuController;
 use App\Http\Controllers\web\PermissionController;
 use App\Http\Controllers\web\UserController;
@@ -49,3 +50,8 @@ Route::get('/master/job_title', [JobTitleController::class, 'index'])->name('mas
 Route::get('/master/job_title/create', [JobTitleController::class, 'create'])->name('master.job_title.create');
 Route::get('/master/job_title/edit/{id}', [JobTitleController::class, 'edit'])->name('master.job_title.edit');
 Route::get('/master/job_title/detail/{id}', [JobTitleController::class, 'detail'])->name('master.job_title.detail');
+// SUBSIDIARY
+Route::get('/master/subsidiary', [SubsidiaryController::class, 'index'])->name('master.subsidiary.index');
+Route::get('/master/subsidiary/create', [SubsidiaryController::class, 'create'])->name('master.subsidiary.create');
+Route::get('/master/subsidiary/edit/{id}', [SubsidiaryController::class, 'edit'])->name('master.subsidiary.edit');
+Route::get('/master/subsidiary/detail/{id}', [SubsidiaryController::class, 'detail'])->name('master.subsidiary.detail');
