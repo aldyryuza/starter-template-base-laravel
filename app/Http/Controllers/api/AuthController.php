@@ -29,7 +29,7 @@ class AuthController extends Controller
         ];
 
         try {
-            $user = User::with(['UserGroup.PermissionUser.MasterMenu'])->where('username', $request->username)->first();
+            $user = User::with(['UserGroup.PermissionUser.MasterMenu'])->where('username', $request->username)->whereNull('deleted')->first();
             if (!$user || !Hash::check($request->password, $user->password)) {
                 $result['message'] = 'Username atau Password salah';
                 return response()->json($result, 401);

@@ -6,6 +6,7 @@ use App\Http\Controllers\api\master\EmployeeController;
 use App\Http\Controllers\api\master\JobTitleController;
 use App\Http\Controllers\api\master\RolesController;
 use App\Http\Controllers\api\master\SubsidiaryController;
+use App\Http\Controllers\api\master\UsersController;
 use App\Http\Controllers\api\MenuController;
 use App\Http\Controllers\api\PermissionController;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,12 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::post('/master/employee/submit', [EmployeeController::class, 'submit']);
     Route::delete('/master/employee/delete/{id}', [EmployeeController::class, 'delete']);
     Route::post('/master/employee/delete_all', [EmployeeController::class, 'delete_all']);
+    // USERS
+    Route::post('/master/users/getData', [UsersController::class, 'getData']);
+    Route::post('/master/users/submit', [UsersController::class, 'submit']);
+    Route::post('/master/users/showDataKaryawan', [UsersController::class, 'showDataKaryawan']);
+    Route::delete('/master/users/delete/{id}', [UsersController::class, 'delete']);
+    Route::post('/master/users/delete_all', [UsersController::class, 'delete_all']);
 });
 
 

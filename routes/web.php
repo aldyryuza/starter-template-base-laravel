@@ -7,9 +7,9 @@ use App\Http\Controllers\web\master\EmployeeController;
 use App\Http\Controllers\web\master\JobTitleController;
 use App\Http\Controllers\web\master\RolesController;
 use App\Http\Controllers\web\master\SubsidiaryController;
+use App\Http\Controllers\web\master\UsersController;
 use App\Http\Controllers\web\MenuController;
 use App\Http\Controllers\web\PermissionController;
-use App\Http\Controllers\web\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -23,8 +23,6 @@ Route::get('/auth/register', [AuthController::class, 'register'])->name('auth.re
 Route::post('/auth/save_session', [AuthController::class, 'save_session'])->name('auth.save_session');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-
-Route::get('/master/users', [UserController::class, 'index'])->name('users.index');
 
 // MENU
 Route::get('/settings/menu', [MenuController::class, 'index'])->name('settings.menu.index');
@@ -62,3 +60,8 @@ Route::get('/master/employee/create', [EmployeeController::class, 'create'])->na
 Route::get('/master/employee/edit/{id}', [EmployeeController::class, 'edit'])->name('master.employee.edit');
 Route::get('/master/employee/detail/{id}', [EmployeeController::class, 'detail'])->name('master.employee.detail');
 Route::get('/master/employee/export', [EmployeeController::class, 'export'])->name('master.employee.export');
+
+Route::get('/master/users', [UsersController::class, 'index'])->name('users.index');
+Route::get('/master/users/create', [UsersController::class, 'create'])->name('users.create');
+Route::get('/master/users/edit/{id}', [UsersController::class, 'edit'])->name('users.edit');
+Route::get('/master/users/detail/{id}', [UsersController::class, 'detail'])->name('users.detail');
