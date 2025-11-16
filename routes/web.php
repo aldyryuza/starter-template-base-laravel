@@ -3,6 +3,7 @@
 use App\Http\Controllers\web\DashboardController;
 use App\Http\Controllers\web\AuthController;
 use App\Http\Controllers\web\master\DepartementController;
+use App\Http\Controllers\web\master\EmployeeController;
 use App\Http\Controllers\web\master\JobTitleController;
 use App\Http\Controllers\web\master\RolesController;
 use App\Http\Controllers\web\master\SubsidiaryController;
@@ -55,3 +56,8 @@ Route::get('/master/subsidiary', [SubsidiaryController::class, 'index'])->name('
 Route::get('/master/subsidiary/create', [SubsidiaryController::class, 'create'])->name('master.subsidiary.create');
 Route::get('/master/subsidiary/edit/{id}', [SubsidiaryController::class, 'edit'])->name('master.subsidiary.edit');
 Route::get('/master/subsidiary/detail/{id}', [SubsidiaryController::class, 'detail'])->name('master.subsidiary.detail');
+// EMPLOYEE
+Route::get('/master/employee', [EmployeeController::class, 'index'])->name('master.employee.index');
+Route::get('/master/employee/create', [EmployeeController::class, 'create'])->name('master.employee.create');
+Route::get('/master/employee/edit/{id}', [EmployeeController::class, 'edit'])->name('master.employee.edit');
+Route::get('/master/employee/detail/{id}', [EmployeeController::class, 'detail'])->name('master.employee.detail');

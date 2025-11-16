@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\master\DepartementController;
+use App\Http\Controllers\api\master\EmployeeController;
 use App\Http\Controllers\api\master\JobTitleController;
 use App\Http\Controllers\api\master\RolesController;
 use App\Http\Controllers\api\master\SubsidiaryController;
@@ -41,6 +42,10 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::post('/master/subsidiary/getData', [SubsidiaryController::class, 'getData']);
     Route::post('/master/subsidiary/submit', [SubsidiaryController::class, 'submit']);
     Route::delete('/master/subsidiary/delete/{id}', [SubsidiaryController::class, 'delete']);
+    // EMPLOYEE
+    Route::post('/master/employee/getData', [EmployeeController::class, 'getData']);
+    Route::post('/master/employee/submit', [EmployeeController::class, 'submit']);
+    Route::delete('/master/employee/delete/{id}', [EmployeeController::class, 'delete']);
 });
 
 
