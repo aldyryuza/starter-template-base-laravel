@@ -46,6 +46,7 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::post('/master/employee/getData', [EmployeeController::class, 'getData']);
     Route::post('/master/employee/submit', [EmployeeController::class, 'submit']);
     Route::delete('/master/employee/delete/{id}', [EmployeeController::class, 'delete']);
+    Route::post('/master/employee/delete_all', [EmployeeController::class, 'delete_all']);
 });
 
 

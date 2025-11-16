@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\web\master;
 
+use App\Exports\EmployeeExport;
 use App\Http\Controllers\Controller;
 use App\Models\Master\Departement;
 use App\Models\Master\Employee;
 use App\Models\Master\JobTitle;
 use App\Models\Master\Subsidiary;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
 {
@@ -41,6 +44,9 @@ class EmployeeController extends Controller
         $data['data_page'] = [
             'title' => 'Employee',
         ];
+        $data['data_subsidiary'] = Subsidiary::whereNull('deleted')->get();
+        $data['data_job_title'] = JobTitle::whereNull('deleted')->get();
+        $data['data_department'] = Departement::whereNull('deleted')->get();
         $view = view('web.employee.index', $data);
         $put['title_content'] = 'Employee';
         $put['title_top'] = 'Employee';
@@ -112,5 +118,22 @@ class EmployeeController extends Controller
         $put['view_file'] = $view;
         $put['header_data'] = $this->getHeaderCss();
         return view('web.template.main', $put);
+    }
+    public function export(Request $request)
+    {
+        $format = $request->query('format', 'xlsx');
+        if (!in_array($format, ['xlsx', 'csv'])) {
+            return response('Format tidak valid.', 400);
+        }
+
+        $export = new EmployeeExport(
+            $request->query('job_title'),
+            $request->query('department'),
+            $request->query('subsidiary')
+        );
+
+        $fileName = 'employee_' . now()->format('Ymd_His') . '.' . $format;
+
+        return Excel::download($export, $fileName);
     }
 }

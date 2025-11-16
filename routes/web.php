@@ -61,3 +61,4 @@ Route::get('/master/employee', [EmployeeController::class, 'index'])->name('mast
 Route::get('/master/employee/create', [EmployeeController::class, 'create'])->name('master.employee.create');
 Route::get('/master/employee/edit/{id}', [EmployeeController::class, 'edit'])->name('master.employee.edit');
 Route::get('/master/employee/detail/{id}', [EmployeeController::class, 'detail'])->name('master.employee.detail');
+Route::get('/master/employee/export', [EmployeeController::class, 'export'])->name('master.employee.export');

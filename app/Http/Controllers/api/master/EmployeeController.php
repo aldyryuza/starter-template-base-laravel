@@ -28,6 +28,9 @@ class EmployeeController extends Controller
                 'employee.nik',
                 'employee.employee_code',
                 'employee.created_at',
+                'employee.job_title',
+                'employee.department',
+                'employee.company',
 
                 'jt.job_name as job_title',
                 'd.department_name as department',
@@ -37,6 +40,20 @@ class EmployeeController extends Controller
             ->leftJoin('department as d', 'd.id', '=', 'employee.department')
             ->leftJoin('subsidiary as s', 's.id', '=', 'employee.company')
             ->whereNull('employee.deleted');
+
+        // === TERIMA FILTER DARI JAVASCRIPT ===
+        if ($request->filled('subsidiary')) {
+            $query->where('employee.company', $request->subsidiary);
+        }
+
+        if ($request->filled('department')) {
+            $query->where('employee.department', $request->department);
+        }
+
+        if ($request->filled('job_title')) {
+            $query->where('employee.job_title', $request->job_title);
+        }
+        // =====================================
 
         return DataTables::of($query)
             ->addIndexColumn()
@@ -52,12 +69,9 @@ class EmployeeController extends Controller
             ->filterColumn('employee.address', fn($q, $k) => $q->where('employee.address', 'ilike', "%{$k}%"))
             ->filterColumn('employee.nik', fn($q, $k) => $q->where('employee.nik', 'ilike', "%{$k}%"))
             ->filterColumn('employee.employee_code', fn($q, $k) => $q->where('employee.employee_code', 'ilike', "%{$k}%"))
-
             ->filterColumn('s.type', fn($q, $k) => $q->where('s.type', 'ilike', "%{$k}%"))
             ->filterColumn('d.department_name', fn($q, $k) => $q->where('d.department_name', 'ilike', "%{$k}%"))
             ->filterColumn('jt.job_name', fn($q, $k) => $q->where('jt.job_name', 'ilike', "%{$k}%"))
-
-
             ->orderColumn('employee.name', 'employee.name $1')
             ->orderColumn('employee.created_at', 'employee.created_at $1')
             ->make(true);
@@ -108,6 +122,7 @@ class EmployeeController extends Controller
 
     public function delete($id)
     {
+        dd($id);
         $result['is_valid'] = false;
         DB::beginTransaction();
         try {
@@ -122,6 +137,37 @@ class EmployeeController extends Controller
             $result['message'] = $th->getMessage();
             DB::rollBack();
         }
+        return response()->json($result);
+    }
+    public function delete_all(Request $request)
+    {
+        $ids = $request->input('ids', []); // langsung ambil array
+
+        // Validasi: pastikan $ids adalah array dan tidak kosong
+        if (!is_array($ids) || empty($ids)) {
+            return response()->json([
+                'is_valid' => false,
+                'message' => 'Tidak ada data yang dipilih.'
+            ], 400);
+        }
+
+        $result = ['is_valid' => false];
+
+        DB::beginTransaction();
+        try {
+            // Soft delete: update deleted_at atau kolom custom
+            Employee::whereIn('id', $ids)->update([
+                'deleted' => now(), // atau 'deleted_at' jika pakai softdelete
+            ]);
+
+            DB::commit();
+            $result['is_valid'] = true;
+            $result['message'] = 'Data berhasil dihapus.';
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $result['message'] = 'Gagal menghapus data: ' . $th->getMessage();
+        }
+
         return response()->json($result);
     }
 }
