@@ -28,7 +28,6 @@ let Users = {
     },
 
     getData: () => {
-        // hancurkan datatable lama biar tidak conflict
         if ($.fn.DataTable.isDataTable('#data-table')) {
             $('#data-table').DataTable().destroy();
         }
@@ -38,79 +37,97 @@ let Users = {
             serverSide: true,
             responsive: true,
             autoWidth: false,
-            destroy: true,
-            dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            buttons: ["copy", "csv", "excel", "pdf", "print"],
-            aLengthMenu: [
-                [25, 50, 100],
-                [25, 50, 100]
+            pageLength: 25,
+
+            // PERBAIKAN: lengthMenu (bukan alengthMenu!)
+            lengthMenu: [
+                [25, 50, 100, -1],
+                [25, 50, 100, "All"]
             ],
+            // PERBAIKAN: colReorder
+            colReorder: true,
+            fixedColumnsLeft: 1,
+            fixedColumnsRight: 1,
+            // DOM yang benar-benar rapi + ada jarak
+            dom:
+                "<'row g-3 mb-3'" +
+                "<'col-sm-12 col-md-4'B>" +     // Buttons (kiri)
+                "<'col-sm-12 col-md-4 text-center'l>" + // Length menu (tengah)
+                "<'col-sm-12 col-md-4'f>" +     // Search (kanan)
+                ">" +
+                "<'row'" +
+                "<'col-sm-12'tr>" +
+                ">" +
+                "<'row g-3 mt-3'" +
+                "<'col-sm-12 col-md-5'i>" +
+                "<'col-sm-12 col-md-7'p>" +
+                ">",
+
+            buttons: [
+                { extend: 'copy', text: '<i class="bx bx-copy"></i>', titleAttr: 'Copy' },
+                { extend: 'csv', text: '<i class="bx bx-file"></i>', titleAttr: 'CSV' },
+                { extend: 'excel', text: '<i class="bx bxs-file-export"></i>', titleAttr: 'Excel' },
+                { extend: 'pdf', text: '<i class="bx bxs-file-pdf"></i>', titleAttr: 'PDF' },
+                { extend: 'print', text: '<i class="bx bx-printer"></i>', titleAttr: 'Print' },
+                {
+                    extend: 'colvis',
+                    text: '<i class="bx bx-columns"></i> Column',
+                    // className: 'btn btn-outline-secondary btn-sm',
+                    columns: [1, 2, 3, 4] // sembunyikan No & Action dari opsi colvis
+                }
+            ],
+
+            // language: {
+            //     lengthMenu: "Tampilkan _MENU_ data per halaman",
+            //     search: "Cari:",
+            //     info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            //     paginate: {
+            //         previous: "Sebelumnya",
+            //         next: "Berikutnya"
+            //     }
+            // },
+
             ajax: {
                 url: url.base_url(Users.moduleApi()) + 'getData',
                 type: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + Token.get(),
-                },
-                dataSrc: function (json) {
-                    if (!json.data) {
-                        console.error("Response tidak valid:", json);
-                        return [];
-                    }
-                    return json.data;
-                },
-                error: function (xhr) {
-                    console.error("Error DataTable:", xhr);
+                headers: { 'Authorization': 'Bearer ' + Token.get() },
+                dataSrc: json => json.data || [],
+                error: xhr => {
                     if (xhr.status === 401) {
-                        alert('Token tidak valid atau sesi habis. Silakan login kembali.');
+                        alert('Sesi habis, silakan login ulang.');
                         localStorage.removeItem('auth_token');
-
                         window.location.href = url.base_url('auth') + 'logout';
                     }
                 }
             },
+
             columns: [
-                { data: 'DT_RowIndex', searchable: false, orderable: false },
+                { data: 'DT_RowIndex', searchable: false, orderable: false, className: 'text-center' },
                 { data: 'name' },
                 { data: 'username' },
                 { data: 'roles_name' },
                 { data: 'created_at' },
                 {
-                    data: 'action',
+                    data: null,
                     orderable: false,
                     searchable: false,
-                    className: 'text-center align-middle',
-                    render: function (data, type, row) {
-                        let button_action = '';
+                    className: 'text-center',
+                    render: (data, type, row) => {
+                        let btn = '';
                         if (update == 1) {
-                            button_action += `
-                                <button class="btn btn-sm btn-info" title="Detail" onclick="Users.detail(${row.id})">
-                                    <i class="bx bx-detail"></i>
-                                </button>
-                                <button class="btn btn-sm btn-warning" title="Edit" onclick="Users.edit(${row.id})">
-                                    <i class="bx bx-edit"></i>
-                                </button>
-                            `;
+                            btn += `<button class="btn btn-sm btn-info" onclick="Users.detail(${row.id})"><i class="bx bx-detail"></i></button> `;
+                            btn += `<button class="btn btn-sm btn-warning" onclick="Users.edit(${row.id})"><i class="bx bx-edit"></i></button> `;
                         }
                         if (del == 1) {
-                            button_action += `
-                            <button class="btn btn-sm btn-danger" title="Hapus" data-id="${row.id}" onclick="Users.delete(this,event)">
-                                <i class="bx bx-trash"></i>
-                            </button>
-                            `;
+                            btn += `<button class="btn btn-sm btn-danger" onclick="Users.delete(this,event)" data-id="${row.id}"><i class="bx bx-trash"></i></button>`;
                         }
-                        return `
-                    <div class="d-flex justify-content-center gap-1">
-                        ${button_action}
-                    </div>
-                `;
+                        return '<div class="d-flex justify-content-center gap-1">' + btn + '</div>';
                     }
                 }
             ],
+
             order: [[1, 'asc']]
         });
-
     },
 
     getPostData: () => {

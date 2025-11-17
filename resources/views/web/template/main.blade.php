@@ -127,6 +127,10 @@
     <script src="{{ asset('assets/cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js') }}"></script>
     <script src="{{ asset('assets/cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('assets/cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js') }}"></script>
+    <!-- YANG PALING PENTING: colvis -->
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+    <!-- ColReorder versi LAMA tapi pasti jalan -->
+    <script src="https://cdn.datatables.net/colreorder/1.7.0/js/dataTables.colReorder.min.js"></script>
 
     <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
