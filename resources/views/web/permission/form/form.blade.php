@@ -35,8 +35,6 @@
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <div class="mb-3">
-                                <input type="text" name="id" id="id" value="{{ $data['id'] ?? null }}"
-                                    hidden>
                                 <label for="user_group" class="form-label">User Group</label>
                                 <br>
                                 <select class="select2 form-control required" name="user_group" id="user_group"
@@ -55,9 +53,6 @@
                         {{-- {{ dd($data) }} --}}
                         <div class="col-sm-12 col-md-6">
                             <div class="mb-3">
-                                <input type="text" name="id" id="id" value="{{ $data['id'] ?? null }}"
-                                    hidden>
-
                                 <label for="action" class="form-label">Action</label>
                                 <br>
                                 <select class="select2 form-control" name="action[]" id="action" multiple="multiple">

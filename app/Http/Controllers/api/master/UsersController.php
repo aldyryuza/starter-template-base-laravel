@@ -100,4 +100,9 @@ class UsersController extends Controller
         $data = $request->all();
         return view('web.users.modal.dataEmployee', $data);
     }
+    public function showDataUsers(Request $request)
+    {
+        $data = $request->all();
+        return view('web.users.modal.dataUsers', $data);
+    }
 }

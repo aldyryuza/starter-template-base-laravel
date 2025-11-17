@@ -7,25 +7,26 @@ use App\Models\Own\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-function getPersmission($menu = "", $nik = ""){
+function getPersmission($menu = "", $nik = "")
+{
     $user = session('user_id');
     $group_user = session('akses');
 
     // DB::enableQueryLog();
     $dataMenu = RoutingPermission::where('ug.akses', $group_user)
-    ->select([
-        'routing_permission.*',
-        'am.kode_menu',
-        'ug.akses'
-    ])
-    ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
-    ->join('roles as ug', 'ug.id', '=', 'routing_permission.roles')
-    ->where('am.kode_menu', $menu);
+        ->select([
+            'routing_permission.*',
+            'am.kode_menu',
+            'ug.akses'
+        ])
+        ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
+        ->join('roles as ug', 'ug.id', '=', 'routing_permission.roles')
+        ->where('am.kode_menu', $menu);
     // if($state != ''){
     //     $dataMenu->where('routing_permission.state', $state);
     // }
 
-    if($nik != ''){
+    if ($nik != '') {
         $dataMenu->where('routing_permission.nik', $nik);
     }
     $dataMenu = $dataMenu->first();
@@ -33,28 +34,29 @@ function getPersmission($menu = "", $nik = ""){
     // print_r(DB::getQueryLog());die;
 
     $result = [];
-    if(!empty($dataMenu)){
+    if (!empty($dataMenu)) {
         return $dataMenu;
     }
     return $result;
 }
 
-function getPersmissionCreator($menu, $nik, $group = ""){
+function getPersmissionCreator($menu, $nik, $group = "")
+{
     DB::enableQueryLog();
     $dataAkses = User::where('users.nik', $nik)
-    ->select([
-        'users.*',
-        'ug.akses',
-        'kry.distributor'
-    ])
-    ->join('roles as ug', 'ug.id', 'users.roles')
-    ->join('karyawan as kry', 'kry.nik', 'users.nik')
-    ->whereNull('users.deleted');  
+        ->select([
+            'users.*',
+            'ug.akses',
+            'kry.distributor'
+        ])
+        ->join('roles as ug', 'ug.id', 'users.roles')
+        ->join('karyawan as kry', 'kry.nik', 'users.nik')
+        ->whereNull('users.deleted');
 
 
-    if($group != ''){
+    if ($group != '') {
         $dataAkses->where('ug.akses', $group);
-    }else{
+    } else {
         $dataAkses->whereIn('ug.akses', ['DISTRIBUTOR']);
     }
     $dataAkses = $dataAkses->first();
@@ -66,16 +68,16 @@ function getPersmissionCreator($menu, $nik, $group = ""){
 
     DB::enableQueryLog();
     $dataMenu = RoutingPermission::where('ug.akses', $group_user)
-    ->select([
-        'routing_permission.*',
-        'am.kode_menu',
-        'ug.akses',
-    ])
-    ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
-    ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
-    ->join('roles as ug', 'ug.id', '=', 'rh.roles')
-    ->where('am.kode_menu', $menu)
-    ->where('rh.distributor', $distributor);
+        ->select([
+            'routing_permission.*',
+            'am.kode_menu',
+            'ug.akses',
+        ])
+        ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
+        ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
+        ->join('roles as ug', 'ug.id', '=', 'rh.roles')
+        ->where('am.kode_menu', $menu)
+        ->where('rh.distributor', $distributor);
 
     $dataMenu = $dataMenu->first();
     // echo '<pre>';
@@ -83,7 +85,7 @@ function getPersmissionCreator($menu, $nik, $group = ""){
 
 
     $result = [];
-    if(!empty($dataMenu)){
+    if (!empty($dataMenu)) {
         $dataNextApproval = getPersmissionNextAcc($menu, '', '', $distributor);
         $dataMenu['next_approval'] = $dataNextApproval;
         return $dataMenu;
@@ -91,22 +93,23 @@ function getPersmissionCreator($menu, $nik, $group = ""){
     return $result;
 }
 
-function getRoutingPermission($menu, $nik, $akses = ""){
+function getRoutingPermission($menu, $nik, $akses = "")
+{
     DB::enableQueryLog();
     $dataAkses = User::where('users.nik', $nik)
-    ->select([
-        'users.*',
-        'ug.akses',
-        'kry.distributor'
-    ])
-    ->join('roles as ug', 'ug.id', 'users.roles')
-    ->join('karyawan as kry', 'kry.nik', 'users.nik')
-    ->whereNull('users.deleted');  
+        ->select([
+            'users.*',
+            'ug.akses',
+            'kry.distributor'
+        ])
+        ->join('roles as ug', 'ug.id', 'users.roles')
+        ->join('karyawan as kry', 'kry.nik', 'users.nik')
+        ->whereNull('users.deleted');
 
 
-    if($akses != ''){
+    if ($akses != '') {
         $dataAkses->where('ug.akses', $akses);
-    }else{
+    } else {
         $dataAkses->whereIn('ug.akses', ['DISTRIBUTOR']);
     }
     $dataAkses = $dataAkses->first();
@@ -118,16 +121,16 @@ function getRoutingPermission($menu, $nik, $akses = ""){
 
     DB::enableQueryLog();
     $dataMenu = RoutingPermission::where('ug.akses', $akses)
-    ->select([
-        'routing_permission.*',
-        'am.kode_menu',
-        'ug.akses',
-    ])
-    ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
-    ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
-    ->join('roles as ug', 'ug.id', '=', 'rh.roles')
-    ->where('am.kode_menu', $menu)
-    ->where('rh.distributor', $distributor);
+        ->select([
+            'routing_permission.*',
+            'am.kode_menu',
+            'ug.akses',
+        ])
+        ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
+        ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
+        ->join('roles as ug', 'ug.id', '=', 'rh.roles')
+        ->where('am.kode_menu', $menu)
+        ->where('rh.distributor', $distributor);
 
     $dataMenu = $dataMenu->first();
     // echo '<pre>';
@@ -135,7 +138,7 @@ function getRoutingPermission($menu, $nik, $akses = ""){
 
 
     $result = [];
-    if(!empty($dataMenu)){
+    if (!empty($dataMenu)) {
         $dataNextApproval = getPersmissionNextAcc($menu, '', '', $distributor);
         $dataMenu->next_approval = $dataNextApproval;
         return $dataMenu;
@@ -143,7 +146,8 @@ function getRoutingPermission($menu, $nik, $akses = ""){
     return $result;
 }
 
-function getPersmissionAcc($menu = "", $nik = "", $akses = ""){
+function getPersmissionAcc($menu = "", $nik = "", $akses = "")
+{
     DB::enableQueryLog();
     $dataMenu = RoutingPermission::select([
         'routing_permission.*',
@@ -151,10 +155,10 @@ function getPersmissionAcc($menu = "", $nik = "", $akses = ""){
         'ug.akses',
         'rh.distributor'
     ])
-    ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
-    ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
-    ->join('roles as ug', 'ug.id', '=', 'rh.roles')
-    ->where('am.kode_menu', $menu);
+        ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
+        ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
+        ->join('roles as ug', 'ug.id', '=', 'rh.roles')
+        ->where('am.kode_menu', $menu);
     $dataMenu->where('routing_permission.nik', $nik);
     $dataMenu = $dataMenu->first();
 
@@ -162,7 +166,7 @@ function getPersmissionAcc($menu = "", $nik = "", $akses = ""){
     // print_r($dataMenu);die;
 
     $result = [];
-    if(!empty($dataMenu)){
+    if (!empty($dataMenu)) {
         $dataNextApproval = getPersmissionNextAcc($menu, $dataMenu->state, $nik, $dataMenu->distributor);
         $dataMenu->next_approval = $dataNextApproval;
         return $dataMenu;
@@ -170,16 +174,17 @@ function getPersmissionAcc($menu = "", $nik = "", $akses = ""){
     return $result;
 }
 
-function getPersmissionNext($menu = "", $state = "", $nik = ""){
+function getPersmissionNext($menu = "", $state = "", $nik = "")
+{
     // echo $nik;die;
     $dataAkses = RoutingPermission::select([
         'rh.*'
     ])
-    ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
-    ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
-    ->where('am.kode_menu', $menu)
-    ->orderBy('routing_permission.id', 'asc');
-    if($nik != ''){
+        ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
+        ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
+        ->where('am.kode_menu', $menu)
+        ->orderBy('routing_permission.id', 'asc');
+    if ($nik != '') {
         $dataAkses->where('routing_permission.nik', $nik);
     }
     $dataAkses = $dataAkses->first();
@@ -191,12 +196,12 @@ function getPersmissionNext($menu = "", $state = "", $nik = ""){
         'am.kode_menu',
         'ug.akses'
     ])
-    ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
-    ->join('roles as ug', 'ug.id', '=', 'routing_permission.roles')
-    ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
-    ->where('am.kode_menu', $menu)
-    ->where('routing_permission.prev_state', $state)
-    ->where('rh.distributor', $distributor);
+        ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
+        ->join('roles as ug', 'ug.id', '=', 'routing_permission.roles')
+        ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
+        ->where('am.kode_menu', $menu)
+        ->where('routing_permission.prev_state', $state)
+        ->where('rh.distributor', $distributor);
 
 
     $dataMenu = $dataMenu->first();
@@ -205,23 +210,24 @@ function getPersmissionNext($menu = "", $state = "", $nik = ""){
     // print_r(DB::getQueryLog());die;
 
     $result = [];
-    if(!empty($dataMenu)){
+    if (!empty($dataMenu)) {
         return $dataMenu;
     }
     return $result;
 }
 
-function getPersmissionNextAcc($menu = "", $state = "", $nik = "", $distributor = ''){
+function getPersmissionNextAcc($menu = "", $state = "", $nik = "", $distributor = '')
+{
     // echo $nik;die;
     $dataAkses = RoutingPermission::select([
         'rh.*'
     ])
-    ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
-    ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
-    ->where('am.kode_menu', $menu)
-    ->where('rh.distributor', $distributor)
-    ->orderBy('routing_permission.id', 'asc');
-    if($nik != ''){
+        ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
+        ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
+        ->where('am.kode_menu', $menu)
+        ->where('rh.distributor', $distributor)
+        ->orderBy('routing_permission.id', 'asc');
+    if ($nik != '') {
         $dataAkses->where('routing_permission.nik', $nik);
     }
     $dataAkses = $dataAkses->first();
@@ -232,13 +238,13 @@ function getPersmissionNextAcc($menu = "", $state = "", $nik = "", $distributor 
         'am.kode_menu',
         'ug.akses'
     ])
-    ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
-    ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
-    ->join('roles as ug', 'ug.id', '=', 'rh.roles')
-    ->where('am.kode_menu', $menu)    
-    ->where('rh.distributor', $distributor)
-    ->orderBy('routing_permission.id', 'asc');
-    if($state != ''){
+        ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
+        ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
+        ->join('roles as ug', 'ug.id', '=', 'rh.roles')
+        ->where('am.kode_menu', $menu)
+        ->where('rh.distributor', $distributor)
+        ->orderBy('routing_permission.id', 'asc');
+    if ($state != '') {
         $dataMenu->where('routing_permission.prev_state', $state);
     }
 
@@ -249,29 +255,31 @@ function getPersmissionNextAcc($menu = "", $state = "", $nik = "", $distributor 
     // print_r(DB::getQueryLog());die;
 
     $result = [];
-    if(!empty($dataMenu)){
+    if (!empty($dataMenu)) {
         return $dataMenu;
     }
     return $result;
 }
 
-function getListAccApproval($document = ''){
+function getListAccApproval($document = '')
+{
     $datadb = OwnDocumentTransaction::where('doct.id', $document)
-    ->select([
-        'kry.nama',
-        'act.created_at as waktu_transaksi',
-        'document_transaction.state'
-    ])
-    ->join('actor as act', 'act.id', 'document_transaction.actor')
-    ->join('document as doct', 'doct.id', 'document_transaction.document')
-    ->join('users as usr', 'usr.id', 'act.users')
-    ->join('karyawan as kry', 'kry.nik', 'usr.nik')
-    ->orderBy('document_transaction.id', 'asc')
-    ->get()->toArray();
+        ->select([
+            'kry.nama',
+            'act.created_at as waktu_transaksi',
+            'document_transaction.state'
+        ])
+        ->join('actor as act', 'act.id', 'document_transaction.actor')
+        ->join('document as doct', 'doct.id', 'document_transaction.document')
+        ->join('users as usr', 'usr.id', 'act.users')
+        ->join('karyawan as kry', 'kry.nik', 'usr.nik')
+        ->orderBy('document_transaction.id', 'asc')
+        ->get()->toArray();
     return $datadb;
 }
 
-function getAllRulesRouting($menu = '', $distributor = '31'){
+function getAllRulesRouting($menu = '', $distributor = '31')
+{
 
     $dataMenu = RoutingPermission::select([
         'routing_permission.*',
@@ -279,39 +287,42 @@ function getAllRulesRouting($menu = '', $distributor = '31'){
         'ug.akses',
         'kry.nama'
     ])
-    ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
-    ->join('roles as ug', 'ug.id', '=', 'routing_permission.roles')
-    ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
-    ->join('karyawan as kry', 'kry.nik', 'routing_permission.nik')
-    ->where('am.kode_menu', $menu)
-    ->where('rh.distributor', $distributor)
-    ->orderBy('routing_permission.id', 'asc');
+        ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
+        ->join('roles as ug', 'ug.id', '=', 'routing_permission.roles')
+        ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
+        ->join('karyawan as kry', 'kry.nik', 'routing_permission.nik')
+        ->where('am.kode_menu', $menu)
+        ->where('rh.distributor', $distributor)
+        ->orderBy('routing_permission.id', 'asc');
     return $dataMenu->get()->toArray();
 }
 
-function getRoutingByNik($menu = '', $nik = '', $distributor = '31'){
+function getRoutingByNik($menu = '', $nik = '', $distributor = '31')
+{
     $dataMenu = RoutingPermission::select([
         'routing_permission.*',
         'am.kode_menu',
         'ug.akses',
         'kry.nama'
     ])
-    ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
-    ->join('roles as ug', 'ug.id', '=', 'routing_permission.roles')
-    ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
-    ->join('karyawan as kry', 'kry.nik', 'routing_permission.nik')
-    ->where('am.kode_menu', $menu)
-    ->where('rh.distributor', $distributor)
-    ->where('routing_permission.nik', $nik)
-    ->orderBy('routing_permission.id', 'asc');
+        ->join('menu as am', 'am.id', '=', 'routing_permission.menu')
+        ->join('roles as ug', 'ug.id', '=', 'routing_permission.roles')
+        ->join('routing_header as rh', 'rh.id', 'routing_permission.routing_header')
+        ->join('karyawan as kry', 'kry.nik', 'routing_permission.nik')
+        ->where('am.kode_menu', $menu)
+        ->where('rh.distributor', $distributor)
+        ->where('routing_permission.nik', $nik)
+        ->orderBy('routing_permission.id', 'asc');
     return $dataMenu->first();
 }
 
-function getNikOwner(){
+function getNikOwner()
+{
     return "00006700001";
 }
 
-function getPermissionOwner(){
+function getPermissionOwner()
+{
     $data = [
         'to_users' => getNikOwner()
     ];

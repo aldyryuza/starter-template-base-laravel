@@ -10,6 +10,7 @@ use App\Http\Controllers\web\master\SubsidiaryController;
 use App\Http\Controllers\web\master\UsersController;
 use App\Http\Controllers\web\MenuController;
 use App\Http\Controllers\web\PermissionController;
+use App\Http\Controllers\web\RoutingController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -34,6 +35,11 @@ Route::get('/settings/permissions', [PermissionController::class, 'index'])->nam
 Route::get('/settings/permissions/create', [PermissionController::class, 'create'])->name('settings.permission.create');
 Route::get('/settings/permissions/edit/{id}', [PermissionController::class, 'edit'])->name('settings.permission.edit');
 Route::get('/settings/permissions/detail/{id}', [PermissionController::class, 'detail'])->name('settings.permission.detail');
+// ROUTING
+Route::get('/settings/routing', [RoutingController::class, 'index'])->name('settings.routing.index');
+Route::get('/settings/routing/create', [RoutingController::class, 'create'])->name('settings.routing.create');
+Route::get('/settings/routing/edit/{id}', [RoutingController::class, 'edit'])->name('settings.routing.edit');
+Route::get('/settings/routing/detail/{id}', [RoutingController::class, 'detail'])->name('settings.routing.detail');
 // ROLES
 Route::get('/master/roles', [RolesController::class, 'index'])->name('master.roles.index');
 Route::get('/master/roles/create', [RolesController::class, 'create'])->name('master.roles.create');

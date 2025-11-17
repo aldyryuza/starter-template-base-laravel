@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\DisctionaryController;
 use App\Http\Controllers\api\master\DepartementController;
 use App\Http\Controllers\api\master\EmployeeController;
 use App\Http\Controllers\api\master\JobTitleController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\api\master\SubsidiaryController;
 use App\Http\Controllers\api\master\UsersController;
 use App\Http\Controllers\api\MenuController;
 use App\Http\Controllers\api\PermissionController;
+use App\Http\Controllers\api\RoutingController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -27,6 +29,10 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::post('/settings/permissions/getData', [PermissionController::class, 'getData']);
     Route::post('/settings/permissions/submit', [PermissionController::class, 'submit']);
     Route::delete('/settings/permissions/delete/{id}', [PermissionController::class, 'delete']);
+    // ROUTING
+    Route::post('/settings/routing/getData', [RoutingController::class, 'getData']);
+    Route::post('/settings/routing/submit', [RoutingController::class, 'submit']);
+    Route::delete('/settings/routing/delete/{id}', [RoutingController::class, 'delete']);
     // ROLES
     Route::post('/master/roles/getData', [RolesController::class, 'getData']);
     Route::post('/master/roles/submit', [RolesController::class, 'submit']);
@@ -52,9 +58,13 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::post('/master/users/getData', [UsersController::class, 'getData']);
     Route::post('/master/users/submit', [UsersController::class, 'submit']);
     Route::post('/master/users/showDataKaryawan', [UsersController::class, 'showDataKaryawan']);
+    Route::post('/master/users/showDataUsers', [UsersController::class, 'showDataUsers']);
     Route::delete('/master/users/delete/{id}', [UsersController::class, 'delete']);
     Route::post('/master/users/delete_all', [UsersController::class, 'delete_all']);
 });
+
+// DICTIONARY
+Route::post('/dictionary/getListApproval', [DisctionaryController::class, 'getListApproval']);
 
 
 //
