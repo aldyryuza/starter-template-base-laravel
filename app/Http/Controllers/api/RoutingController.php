@@ -58,51 +58,57 @@ class RoutingController extends Controller
 
     public function submit(Request $request)
     {
-        $data = $request->all();
-
         $result = ['is_valid' => false];
 
         DB::beginTransaction();
         try {
-            // Pastikan routing_list ada dan berupa array
-            $routingList = $request->input('routing_list', []); // default array kosong
+            // Pastikan routing_list selalu array
+            $routingList = $request->input('routing_list', []);
             if (!is_array($routingList)) {
                 $routingList = [];
             }
 
-            $data_insert = $data['id'] ? RoutingHeader::find($data['id']) : new RoutingHeader();
+            // Header
+            $headerId = $request->input('id');
+            $data_insert = $headerId
+                ? RoutingHeader::findOrFail($headerId)
+                : new RoutingHeader();
 
-            if (!$data_insert) {
-                throw new \Exception('Routing header tidak ditemukan');
-            }
-
-            $data_insert->menu = $data['menu'];
-            $data_insert->remarks = $data['remarks'];
-            $data_insert->subsidiary = $data['subsidiary'] ?? null;
-            $data_insert->departemen = $data['department'] ?? null;
+            $data_insert->menu        = $request->input('menu');
+            $data_insert->remarks     = $request->input('remarks');
+            $data_insert->subsidiary  = $request->input('subsidiary') ?? null;
+            $data_insert->departemen  = $request->input('department') ?? null;
             $data_insert->save();
 
-            // Bangun data permission
+            // === PROSES ROUTING PERMISSION DENGAN CHAINING prev_state ===
             $data_permission = [];
+            $previousState   = null; // untuk level pertama = NULL
+
             foreach ($routingList as $value) {
-                // Validasi minimal (opsional, tapi bagus)
-                if (empty($value['routing_type_id']) || empty($value['user_id'])) {
-                    continue; // skip row yang tidak valid
+                // Skip jika routing_type_id tidak ada (row tidak valid)
+                if (empty($value['routing_type_id'])) {
+                    continue;
                 }
+
+                // users boleh NULL (untuk dynamic approver seperti Head Dept)
+                $userId = !empty($value['user_id']) ? $value['user_id'] : null;
 
                 $data_permission[] = [
                     'routing_header' => $data_insert->id,
-                    'menu' => $data_insert->menu,
-                    'prev_state' => null, // atau logika prev_state jika Anda pakai chain
-                    'state' => $value['routing_type_id'],
-                    'users' => $value['user_id'],
-                    'is_active' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'menu'           => $data_insert->menu,
+                    'prev_state'     => $previousState,              // otomatis dari level sebelumnya
+                    'state'          => $value['routing_type_id'],   // RT_ACCESS_ACC_1, _2, dst.
+                    'users'          => $userId,
+                    'is_active'      => 1,
+                    'created_at'     => now(),
+                    'updated_at'     => now(),
                 ];
+
+                // Update previousState untuk level berikutnya
+                $previousState = $value['routing_type_id'];
             }
 
-            // Hapus lama, insert baru
+            // Hapus data lama, insert yang baru
             RoutingPermission::where('routing_header', $data_insert->id)->delete();
 
             if (!empty($data_permission)) {
@@ -110,12 +116,16 @@ class RoutingController extends Controller
             }
 
             DB::commit();
+
             $result['is_valid'] = true;
-            $result['message'] = 'Routing berhasil disimpan';
+            $result['message']  = 'Routing berhasil disimpan';
         } catch (\Throwable $th) {
             DB::rollBack();
             $result['message'] = $th->getMessage();
-            \Log::error('Routing submit error: ' . $th->getMessage());
+            Log::error('Routing submit error: ' . $th->getMessage(), [
+                'request' => $request->all(),
+                'trace'   => $th->getTraceAsString()
+            ]);
         }
 
         return response()->json($result);

@@ -77,7 +77,7 @@ class RoutingController extends Controller
         // dd($this->akses_menu);
         $data['akses'] = $this->akses_menu;
         $data['data'] = RoutingHeader::with('RoutingPermission.Users', 'RoutingPermission.Dictionary')->find($id);
-
+        // dd($data['data']);
         $data['data_page'] = [
             'title' => 'Routing Edit',
             'action' => 'edit',

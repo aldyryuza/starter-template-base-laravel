@@ -298,7 +298,7 @@ let Routing = {
 
             // Hanya tambahkan jika keduanya terisi
             // Tapi kalau kosong, tetap lanjut (tidak error)
-            if (routingType && userId) {
+            if (routingType) {
                 const isNew = $row.hasClass('new-row');
                 const detailId = isNew ? null : $row.data('routing-detail-id');
 

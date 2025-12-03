@@ -92,11 +92,15 @@
                                         </tr>
                                     </thead>
                                     <tbody id="table-body">
-                                        @if (isset($data['RoutingPermission']) && $data['RoutingPermission']->count())
-                                            @foreach ($data['RoutingPermission'] as $item)
+                                        {{-- {{ dd($data->RoutingPermission) }} --}}
+                                        @if (isset($data->RoutingPermission) && $data->RoutingPermission->count() > 0)
+                                            @foreach ($data->RoutingPermission as $index => $item)
+                                                @php
+                                                    // Buat rowId unik agar select2 & button select user bisa kerja
+                                                    $rowId = 'existing-' . $item->id;
+                                                @endphp
                                                 <tr data-routing-detail-id="{{ $item->id }}"
-                                                    data-routing-type-id="{{ $item->Dictionary->term_id }}"
-                                                    data-user-id="{{ $item->Users->id }}">
+                                                    data-row-id="{{ $rowId }}">
                                                     <td class="text-center">
                                                         <select class="form-control select2 routing-type-select"
                                                             style="width:100%" required>
@@ -109,13 +113,13 @@
                                                         <div class="input-group">
                                                             <button type="button"
                                                                 class="btn btn-success btn-select-user"
-                                                                data-row="existing-{{ $item->id }}">
+                                                                data-row="{{ $rowId }}">
                                                                 Select
                                                             </button>
                                                             <input type="text" class="form-control user-name"
-                                                                value="{{ $item->Users->name }}" readonly>
+                                                                value="{{ $item->Users->name ?? '' }}" readonly>
                                                             <input type="hidden" class="user-id"
-                                                                value="{{ $item->Users->id }}">
+                                                                value="{{ $item->Users->id ?? '' }}">
                                                         </div>
                                                     </td>
                                                     <td class="text-center">
@@ -128,7 +132,7 @@
                                             @endforeach
                                         @endif
 
-                                        <!-- Tombol Tambah Baris -->
+                                        <!-- Placeholder tombol Add -->
                                         <tr class="add-row-placeholder">
                                             <td colspan="3" class="text-left">
                                                 <button type="button" class="btn btn-primary btn-add-row">
