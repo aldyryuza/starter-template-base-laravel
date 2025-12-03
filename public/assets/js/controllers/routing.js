@@ -277,10 +277,10 @@ let Routing = {
         return {
             id: $('#id').val(),
             menu: $('#menu').val(),
-            subsidiary: $('#subsidiary').val(),
-            department: $('#department').val(),
+            subsidiary: $('#subsidiary').val() || null,
+            department: $('#department').val() || null,
             remarks: $('#remarks').val(),
-            routing_list: this.getPostRoutingList()
+            routing_list: this.getPostRoutingList()  // pasti array
         };
     },
 
@@ -290,25 +290,27 @@ let Routing = {
         $('#table-body tr').each(function () {
             const $row = $(this);
 
-            // Skip tombol Add
+            // Skip placeholder/tombol add
             if ($row.hasClass('add-row-placeholder')) return;
 
             const routingType = $row.find('.routing-type-select').val();
-            const userId = $row.find('.user-id').val();
+            const userId = $row.find('.user-id').val();  // ini hidden input atau select2?
 
-            if (!routingType || !userId) return;
+            // Hanya tambahkan jika keduanya terisi
+            // Tapi kalau kosong, tetap lanjut (tidak error)
+            if (routingType && userId) {
+                const isNew = $row.hasClass('new-row');
+                const detailId = isNew ? null : $row.data('routing-detail-id');
 
-            const isNew = $row.hasClass('new-row');
-            const detailId = isNew ? null : $row.data('routing-detail-id');
-
-            list.push({
-                routing_detail_id: detailId,
-                routing_type_id: routingType,
-                user_id: userId
-            });
+                list.push({
+                    routing_detail_id: detailId,
+                    routing_type_id: routingType,
+                    user_id: userId
+                });
+            }
         });
 
-        return list;
+        return list;  // selalu array, bisa kosong []
     },
 
     // === SIMPAN ===

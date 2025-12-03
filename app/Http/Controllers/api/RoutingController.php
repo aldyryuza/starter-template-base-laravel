@@ -59,41 +59,65 @@ class RoutingController extends Controller
     public function submit(Request $request)
     {
         $data = $request->all();
-        // dd($data);
-        $result['is_valid'] = false;
+
+        $result = ['is_valid' => false];
+
         DB::beginTransaction();
         try {
-            $data_permission = [];
-            $data_insert = $data['id'] == '' ? new RoutingHeader() : RoutingHeader::find($data['id']);
+            // Pastikan routing_list ada dan berupa array
+            $routingList = $request->input('routing_list', []); // default array kosong
+            if (!is_array($routingList)) {
+                $routingList = [];
+            }
+
+            $data_insert = $data['id'] ? RoutingHeader::find($data['id']) : new RoutingHeader();
+
+            if (!$data_insert) {
+                throw new \Exception('Routing header tidak ditemukan');
+            }
+
             $data_insert->menu = $data['menu'];
             $data_insert->remarks = $data['remarks'];
-            $data_insert->subsidiary = $data['subsidiary'];
-            $data_insert->departemen = $data['department'];
+            $data_insert->subsidiary = $data['subsidiary'] ?? null;
+            $data_insert->departemen = $data['department'] ?? null;
             $data_insert->save();
 
-            // add detail
-            foreach ($data['routing_list'] as $key => $value) {
+            // Bangun data permission
+            $data_permission = [];
+            foreach ($routingList as $value) {
+                // Validasi minimal (opsional, tapi bagus)
+                if (empty($value['routing_type_id']) || empty($value['user_id'])) {
+                    continue; // skip row yang tidak valid
+                }
+
                 $data_permission[] = [
                     'routing_header' => $data_insert->id,
                     'menu' => $data_insert->menu,
+                    'prev_state' => null, // atau logika prev_state jika Anda pakai chain
                     'state' => $value['routing_type_id'],
                     'users' => $value['user_id'],
                     'is_active' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ];
             }
-            // dd($data_permission);
 
+            // Hapus lama, insert baru
             RoutingPermission::where('routing_header', $data_insert->id)->delete();
-            RoutingPermission::insert($data_permission);
+
+            if (!empty($data_permission)) {
+                RoutingPermission::insert($data_permission);
+            }
 
             DB::commit();
-
             $result['is_valid'] = true;
+            $result['message'] = 'Routing berhasil disimpan';
         } catch (\Throwable $th) {
-            //throw $th;
-            $result['message'] = $th->getMessage();
             DB::rollBack();
+            $result['message'] = $th->getMessage();
+            \Log::error('Routing submit error: ' . $th->getMessage());
         }
+
         return response()->json($result);
     }
 
