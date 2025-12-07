@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\DisctionaryController;
+use App\Http\Controllers\api\master\MasterAplikasiController;
 use App\Http\Controllers\api\master\DepartementController;
 use App\Http\Controllers\api\master\EmployeeController;
 use App\Http\Controllers\api\master\JobTitleController;
@@ -61,6 +62,13 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::post('/master/users/showDataUsers', [UsersController::class, 'showDataUsers']);
     Route::delete('/master/users/delete/{id}', [UsersController::class, 'delete']);
     Route::post('/master/users/delete_all', [UsersController::class, 'delete_all']);
+    // APPS
+    Route::post('/master/aplikasi/getData', [MasterAplikasiController::class, 'getData']);
+    Route::post('/master/aplikasi/submit', [MasterAplikasiController::class, 'submit']);
+    Route::post('/master/aplikasi/showDataKaryawan', [MasterAplikasiController::class, 'showDataKaryawan']);
+    Route::post('/master/aplikasi/showDataUsers', [MasterAplikasiController::class, 'showDataUsers']);
+    Route::delete('/master/aplikasi/delete/{id}', [MasterAplikasiController::class, 'delete']);
+    Route::post('/master/aplikasi/delete_all', [MasterAplikasiController::class, 'delete_all']);
 });
 
 // DICTIONARY

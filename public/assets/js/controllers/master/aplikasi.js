@@ -2,24 +2,24 @@
 const update = $('#update').val();
 const del = $('#delete').val();
 
-let Employee = {
-    module: () => 'master/employee',
-    moduleApi: () => 'api/' + Employee.module(),
+let Aplikasi = {
+    module: () => 'master/aplikasi',
+    moduleApi: () => 'api/' + Aplikasi.module(),
 
     add: () => {
-        let _url = url.base_url(Employee.module()) + 'create';
+        let _url = url.base_url(Aplikasi.module()) + 'create';
         window.location.href = _url;
     },
     edit: (id) => {
-        let _url = url.base_url(Employee.module()) + 'edit/' + id;
+        let _url = url.base_url(Aplikasi.module()) + 'edit/' + id;
         window.location.href = _url;
     },
     detail: (id) => {
-        let _url = url.base_url(Employee.module()) + 'detail/' + id;
+        let _url = url.base_url(Aplikasi.module()) + 'detail/' + id;
         window.location.href = _url;
     },
     back: () => {
-        let _url = url.base_url(Employee.module());
+        let _url = url.base_url(Aplikasi.module());
         window.location.href = _url;
     },
 
@@ -45,7 +45,7 @@ let Employee = {
             buttons: ["copy", "csv", "excel", "pdf", "print"],
             aLengthMenu: [[25, 50, 100], [25, 50, 100]],
             ajax: {
-                url: url.base_url(Employee.moduleApi()) + 'getData',
+                url: url.base_url(Aplikasi.moduleApi()) + 'getData',
                 type: 'POST',
                 headers: { 'Authorization': 'Bearer ' + Token.get() },
                 data: params,
@@ -76,14 +76,8 @@ let Employee = {
                     }
                 },
                 { data: 'DT_RowIndex', searchable: false, orderable: false },
-                { data: 'employee_code' },
-                { data: 'name' },
-                { data: 'job_title' },
-                { data: 'company' },
-                { data: 'department' },
-                { data: 'contact' },
-                { data: 'email' },
-                { data: 'address' },
+                { data: 'nama' },
+                { data: 'keterangan' },
                 { data: 'created_at' },
                 {
                     data: 'action',
@@ -94,16 +88,16 @@ let Employee = {
                         let button_action = '';
                         if (update == 1) {
                             button_action += `
-                            <button class="btn btn-sm btn-info" title="Detail" onclick="Employee.detail(${row.id})">
+                            <button class="btn btn-sm btn-info" title="Detail" onclick="Aplikasi.detail(${row.id})">
                                 <i class="bx bx-detail"></i>
                             </button>
-                            <button class="btn btn-sm btn-warning" title="Edit" onclick="Employee.edit(${row.id})">
+                            <button class="btn btn-sm btn-warning" title="Edit" onclick="Aplikasi.edit(${row.id})">
                                 <i class="bx bx-edit"></i>
                             </button>`;
                         }
                         if (del == 1) {
                             button_action += `
-                            <button class="btn btn-sm btn-danger" title="Hapus" data-id="${row.id}" onclick="Employee.delete(this,event)">
+                            <button class="btn btn-sm btn-danger" title="Hapus" data-id="${row.id}" onclick="Aplikasi.delete(this,event)">
                                 <i class="bx bx-trash"></i>
                             </button>`;
                         }
@@ -146,21 +140,14 @@ let Employee = {
     getPostData: () => {
         let data = {
             id: $('#id').val(),
-            subsidiary: $('#subsidiary').val(),
-            job_title: $('#job_title').val(),
-            department: $('#department').val(),
-            name: $('#name').val(),
-            contact: $('#contact').val(),
-            email: $('#email').val(),
-            address: $('#address').val(),
-            employee_code: $('#employee_code').val(),
-            nik: $('#nik').val(),
+            nama: $('#nama').val(),
+            keterangan: $('#keterangan').val(),
         };
         return data;
     },
     submit: () => {
-        let params = Employee.getPostData();
-        let _url = url.base_url(Employee.moduleApi()) + 'submit';
+        let params = Aplikasi.getPostData();
+        let _url = url.base_url(Aplikasi.moduleApi()) + 'submit';
         // return console.log(params);
         if (validation.run() === 1) {
             $.ajax({
@@ -179,7 +166,7 @@ let Employee = {
                     message.closeLoading();
                     if (response.is_valid) {
                         message.sweetSuccess(response.message);
-                        Employee.back();
+                        Aplikasi.back();
                     } else {
                         message.sweetError(response.message);
                     }
@@ -192,7 +179,7 @@ let Employee = {
         let id = $(elm).attr('data-id');
         // return console.log(id);
 
-        let _url = url.base_url(Employee.moduleApi()) + 'delete/' + id;
+        let _url = url.base_url(Aplikasi.moduleApi()) + 'delete/' + id;
 
         Swal.fire({
             title: 'Apakah Anda yakin?',
@@ -223,8 +210,8 @@ let Employee = {
                         });
 
                         // contoh: reload data tabel
-                        if (typeof Employee.getData === 'function') {
-                            Employee.getData();
+                        if (typeof Aplikasi.getData === 'function') {
+                            Aplikasi.getData();
                         }
                     },
                     error: function (xhr) {
@@ -240,13 +227,6 @@ let Employee = {
 
         return false; // mencegah event default
     },
-    ResetFilter: () => {
-        $('#f-subsidiary').val('').trigger('change');
-        $('#f-department').val('').trigger('change');
-        $('#f-job_title').val('').trigger('change');
-
-        Employee.getData();
-    },
 
     exportData: (elm) => {
         let params = {};
@@ -255,7 +235,7 @@ let Employee = {
         params.department = $('#f-department').val();
         params.job_title = $('#f-job_title').val();
 
-        let _url = url.base_url(Employee.module()) + 'export';
+        let _url = url.base_url(Aplikasi.module()) + 'export';
 
         window.location.href = _url + '?' + $.param(params);
     },
@@ -282,14 +262,14 @@ let Employee = {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: url.base_url(Employee.moduleApi()) + 'delete_all',
+                    url: url.base_url(Aplikasi.moduleApi()) + 'delete_all',
                     type: 'POST',
                     data: { ids: ids },
                     dataType: 'json',
                     headers: { 'Authorization': 'Bearer ' + Token.get() },
                     success: function (res) {
                         message.sweetSuccess(res.message || 'Data berhasil dihapus');
-                        Employee.getData();
+                        Aplikasi.getData();
                     },
                     error: function (xhr) {
                         let msg = xhr.responseJSON?.message || 'Gagal menghapus data';
@@ -304,7 +284,7 @@ let Employee = {
 };
 
 $(function () {
-    Employee.getData();
+    Aplikasi.getData();
     $('.select2').select2({
         // theme: 'bootstrap4',
         // placeholder: "Select Parent Employee",

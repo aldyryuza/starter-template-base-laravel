@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\web\DashboardController;
 use App\Http\Controllers\web\AuthController;
+use App\Http\Controllers\web\master\MasterAplikasiController;
 use App\Http\Controllers\web\master\DepartementController;
 use App\Http\Controllers\web\master\EmployeeController;
 use App\Http\Controllers\web\master\JobTitleController;
@@ -73,7 +74,13 @@ Route::get('/master/users/create', [UsersController::class, 'create'])->name('us
 Route::get('/master/users/edit/{id}', [UsersController::class, 'edit'])->name('users.edit');
 Route::get('/master/users/detail/{id}', [UsersController::class, 'detail'])->name('users.detail');
 // REQUEST USERS
-Route::get('/my-request', [RequestApproveController::class, 'index'])->name('users.index');
-Route::get('/my-request/create', [RequestApproveController::class, 'create'])->name('users.create');
-Route::get('/my-request/edit/{id}', [RequestApproveController::class, 'edit'])->name('users.edit');
-Route::get('/my-request/detail/{id}', [RequestApproveController::class, 'detail'])->name('users.detail');
+Route::get('/my-request', [RequestApproveController::class, 'index'])->name('my_request.index');
+Route::get('/my-request/create', [RequestApproveController::class, 'create'])->name('my_request.create');
+Route::get('/my-request/edit/{id}', [RequestApproveController::class, 'edit'])->name('my_request.edit');
+Route::get('/my-request/detail/{id}', [RequestApproveController::class, 'detail'])->name('my_request.detail');
+// APPS
+Route::get('/master/aplikasi', [MasterAplikasiController::class, 'index'])->name('master.aplikasi.index');
+Route::get('/master/aplikasi/create', [MasterAplikasiController::class, 'create'])->name('master.aplikasi.create');
+Route::get('/master/aplikasi/edit/{id}', [MasterAplikasiController::class, 'edit'])->name('master.aplikasi.edit');
+Route::get('/master/aplikasi/detail/{id}', [MasterAplikasiController::class, 'detail'])->name('master.aplikasi.detail');
+Route::get('/master/aplikasi/export', [MasterAplikasiController::class, 'export'])->name('master.aplikasi.export');
