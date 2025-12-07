@@ -10,6 +10,7 @@ use App\Http\Controllers\web\master\SubsidiaryController;
 use App\Http\Controllers\web\master\UsersController;
 use App\Http\Controllers\web\MenuController;
 use App\Http\Controllers\web\PermissionController;
+use App\Http\Controllers\web\request_approve\RequestApproveController;
 use App\Http\Controllers\web\RoutingController;
 use Illuminate\Support\Facades\Route;
 
@@ -66,8 +67,13 @@ Route::get('/master/employee/create', [EmployeeController::class, 'create'])->na
 Route::get('/master/employee/edit/{id}', [EmployeeController::class, 'edit'])->name('master.employee.edit');
 Route::get('/master/employee/detail/{id}', [EmployeeController::class, 'detail'])->name('master.employee.detail');
 Route::get('/master/employee/export', [EmployeeController::class, 'export'])->name('master.employee.export');
-
+// USERS
 Route::get('/master/users', [UsersController::class, 'index'])->name('users.index');
 Route::get('/master/users/create', [UsersController::class, 'create'])->name('users.create');
 Route::get('/master/users/edit/{id}', [UsersController::class, 'edit'])->name('users.edit');
 Route::get('/master/users/detail/{id}', [UsersController::class, 'detail'])->name('users.detail');
+// REQUEST USERS
+Route::get('/my-request', [RequestApproveController::class, 'index'])->name('users.index');
+Route::get('/my-request/create', [RequestApproveController::class, 'create'])->name('users.create');
+Route::get('/my-request/edit/{id}', [RequestApproveController::class, 'edit'])->name('users.edit');
+Route::get('/my-request/detail/{id}', [RequestApproveController::class, 'detail'])->name('users.detail');
