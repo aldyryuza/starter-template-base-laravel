@@ -3,7 +3,7 @@ let Auth = {
 
     moduleApi: () => 'api/' + Auth.module(),
 
-    signIn: (e) => {
+    signIn: (elm, e) => {
         e.preventDefault(); // cegah reload
 
         let link_url = url.base_url(Auth.moduleApi()) + 'login';
@@ -11,68 +11,61 @@ let Auth = {
             username: $('#username').val(),
             password: $('#password').val()
         };
+        let form = $(elm).closest("div.row");
+        if (validation.runWithElement(form)) {
+            $.ajax({
+                type: "POST",
+                url: link_url,
+                data: params,
+                dataType: "json",
+                beforeSend: () => {
+                    message.loadingProses('Proses Login...');
+                },
+                success: function (response) {
+                    message.closeLoading();
 
-        let form = $('#loginForm')[0];
+                    if (response.is_valid) {
+                        // Simpan token & data user di localStorage
+                        localStorage.setItem('auth_token', response.token);
+                        localStorage.setItem('auth_user', JSON.stringify(response.data));
 
-        // 🔹 Jalankan validasi Bootstrap
-        if (form.checkValidity() === false) {
-            e.stopPropagation();
-            form.classList.add('was-validated');
-            return false;
-        }
-
-        $.ajax({
-            type: "POST",
-            url: link_url,
-            data: params,
-            dataType: "json",
-            beforeSend: () => {
-                message.loadingProses('Proses Login...');
-            },
-            success: function (response) {
-                message.closeLoading();
-
-                if (response.is_valid) {
-                    // Simpan token & data user di localStorage
-                    localStorage.setItem('auth_token', response.token);
-                    localStorage.setItem('auth_user', JSON.stringify(response.data));
-
-                    //  post ke web.php save_session
-                    $.ajax({
-                        type: "POST",
-                        url: url.base_url('auth') + 'save_session',
-                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                        data: {
-                            token: response.token,
-                            user: JSON.stringify(response.data)
-                        },
-                        dataType: "json",
-                        success: function (response) {
-                            if (response.is_valid) {
-                                window.location.href = url.base_url('dashboard');
+                        //  post ke web.php save_session
+                        $.ajax({
+                            type: "POST",
+                            url: url.base_url('auth') + 'save_session',
+                            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                            data: {
+                                token: response.token,
+                                user: JSON.stringify(response.data)
+                            },
+                            dataType: "json",
+                            success: function (response) {
+                                if (response.is_valid) {
+                                    window.location.href = url.base_url('dashboard');
+                                }
                             }
-                        }
-                    })
+                        })
 
-                } else {
-                    message.sweetError('Informasi', response.message || 'Login gagal!');
+                    } else {
+                        message.sweetError('Informasi', response.message || 'Login gagal!');
+                    }
+                },
+                error: function (xhr) {
+                    message.closeLoading();
+
+                    // 🧠 Ambil pesan dari response JSON (jika ada)
+                    let msg = 'Terjadi kesalahan pada server.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        msg = xhr.responseJSON.message;
+                    } else if (xhr.statusText) {
+                        msg = xhr.statusText;
+                    }
+
+                    console.log('Error:', xhr);
+                    message.sweetError('Informasi', msg);
                 }
-            },
-            error: function (xhr) {
-                message.closeLoading();
-
-                // 🧠 Ambil pesan dari response JSON (jika ada)
-                let msg = 'Terjadi kesalahan pada server.';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    msg = xhr.responseJSON.message;
-                } else if (xhr.statusText) {
-                    msg = xhr.statusText;
-                }
-
-                console.log('Error:', xhr);
-                message.sweetError('Informasi', msg);
-            }
-        });
+            });
+        }
     },
 
     signOut: () => {
@@ -111,5 +104,10 @@ let Auth = {
 };
 
 $(function () {
-    $('#loginForm').on('submit', Auth.signIn);
+    // on enter key press on #form-login
+    $('#form-login').on('keypress', function (e) {
+        if (e.which === 13) {
+            Auth.signIn(this, e);
+        }
+    });
 });

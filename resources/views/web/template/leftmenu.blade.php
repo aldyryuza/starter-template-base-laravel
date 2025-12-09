@@ -1,68 +1,65 @@
-<aside class="left-sidebar with-vertical">
-    <div>
-        <!-- ---------------------------------- -->
-        <!-- Start Vertical Layout Sidebar -->
-        <!-- ---------------------------------- -->
-        <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="index-2.html" class="text-nowrap logo-img">
-                <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/dark-logo.svg"
-                    class="dark-logo" alt="Logo-Dark" />
-                <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/light-logo.svg"
-                    class="light-logo" alt="Logo-light" />
-            </a>
-            <a href="javascript:void(0)" class="sidebartoggler ms-auto text-decoration-none fs-5 d-block d-xl-none">
-                <i class="bx bx-x"></i>
-            </a>
-        </div>
-
-        <nav class="sidebar-nav scroll-sidebar" data-simplebar>
-            <!-- 🔍 Search Bar -->
-            <div class="p-3 pb-2">
-                <div class="position-relative">
-                    <i class="bx bx-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
-                    <input type="text" id="menuSearch" class="form-control form-control-sm ps-5"
-                        placeholder="Cari menu..." onkeyup="filterMenu()" />
-                </div>
-            </div>
-
-
-            <!-- Menu List -->
-            <ul id="sidebarnav">
-                {!! app(\App\Http\Controllers\api\template\TemplateMenuController::class)->generateMenuWeb() !!}
-            </ul>
-        </nav>
-
-        <div class="fixed-profile p-3 mx-4 mb-2 bg-secondary-subtle rounded mt-3">
-            <div class="hstack gap-3">
-                <div class="john-img">
-                    <img src="{{ asset('assets/images/profile/user-1.jpg') }}" class="rounded-circle" width="40"
-                        height="40" alt="modernize-img" />
-                </div>
-                <div class="john-title">
-                    <h6 class="mb-0 fs-4 fw-semibold">{{ session('name') ?? '' }}</h6>
-                    <span class="fs-2">{{ session('user_group')->roles_name ?? '' }}</span>
-                </div>
-                <button class="border-0 bg-transparent text-primary ms-auto" tabindex="0" type="button"
-                    aria-label="logout" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="logout"
-                    onclick="Auth.signOut()">
-                    <i class="bx bx-log-out fs-6"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-</aside>
-
-<!-- 🧠 Script Filter Menu -->
-<script>
-    function filterMenu() {
-        const input = document.getElementById('menuSearch');
-        const filter = input.value.toLowerCase();
-        const items = document.querySelectorAll('#sidebarnav li');
-
-        items.forEach(item => {
-            const text = item.textContent.toLowerCase();
-            // tampilkan hanya menu yang mengandung teks pencarian
-            item.style.display = text.includes(filter) ? '' : 'none';
-        });
+<style>
+    /* agar tampilan search konsisten seperti item menu Sneat */
+    .menu-search-wrapper {
+        margin-bottom: 5px;
     }
-</script>
+
+    .layout-menu-collapsed .menu-search-input {
+        display: none !important;
+    }
+
+    .layout-menu-collapsed .menu-search-wrapper .input-group-text {
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .layout-menu-collapsed .menu-search-wrapper {
+        padding-left: .5rem !important;
+    }
+
+    .brand-logo {
+        max-height: 80px;
+        width: auto;
+        height: auto;
+        transition: all .25s ease;
+    }
+
+    .layout-menu-collapsed .brand-logo {
+        max-height: 40px !important;
+        opacity: .8;
+    }
+</style>
+
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo justify-content-center align-items-center">
+        <a href="#" class="app-brand-link">
+            <span class="app-brand-logo demo">
+                <img src="{{ asset('assets/img/satoria/satoriapharma_logo.png') }}" class="brand-logo" alt="Logo">
+            </span>
+        </a>
+
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a>
+    </div>
+
+    <div class="menu-inner-shadow"></div>
+    <ul class="menu-inner py-1">
+        <li class="menu-item menu-search-wrapper" style="padding: 0.75rem 1rem;">
+            <div class="input-group input-group-merge">
+                <span class="input-group-text"><i class="bx bx-search"></i></span>
+                <input type="text" class="form-control menu-search-input" placeholder="Search menu..."
+                    onkeyup="Template.SearchMenuFunction($(this))">
+            </div>
+        </li>
+
+
+        {!! app(\App\Http\Controllers\api\template\TemplateMenuController::class)->generateMenuWeb() !!}
+
+
+    </ul>
+
+</aside>

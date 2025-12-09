@@ -1,415 +1,104 @@
-<!--  Header Start -->
-<header class="topbar">
-    <div class="with-vertical"><!-- ---------------------------------- -->
-        <!-- Start Vertical Layout Header -->
-        <!-- ---------------------------------- -->
-        <nav class="navbar navbar-expand-lg p-0">
-            <ul class="navbar-nav">
-                <li class="nav-item nav-icon-hover-bg rounded-circle ms-n2">
-                    <a class="nav-link sidebartoggler" id="headerCollapse" href="javascript:void(0)">
-                        <i class="bx bx-menu"></i>
-                    </a>
-                </li>
+<nav class="layout-navbar container-xxl navbar-detached navbar navbar-expand-xl align-items-center bg-navbar-theme"
+    id="layout-navbar">
 
-            </ul>
+    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0   d-xl-none ">
+        <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+            <i class="icon-base bx bx-menu icon-md"></i>
+        </a>
+    </div>
 
-            <div class="d-block d-lg-none py-4">
-                <a href="index-2.html" class="text-nowrap logo-img">
-                    <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/dark-logo.svg"
-                        class="dark-logo" alt="Logo-Dark" />
-                    <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/light-logo.svg"
-                        class="light-logo" alt="Logo-light" />
+
+    <div class="navbar-nav-right d-flex align-items-center justify-content-end" id="navbar-collapse">
+
+        <!-- Search -->
+        <div class="navbar-nav align-items-center">
+            <div class="nav-item navbar-search-wrapper mb-0">
+                <a class="nav-item nav-link search-toggler px-0" href="javascript:void(0);">
+                    <span class="d-inline-block text-body-secondary fw-normal" id="autocomplete">
+                        <b>SALES REPORT PHARMA</b>
+                    </span>
                 </a>
             </div>
-            <a class="navbar-toggler nav-icon-hover-bg rounded-circle p-0 mx-0 border-0" href="javascript:void(0)"
-                data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <i class="bx bx-cog fs-7"></i>
-            </a>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <div class="d-flex align-items-center justify-content-between">
-                    <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-                        <!-- ------------------------------- -->
-                        <!-- start language Dropdown -->
-                        <!-- ------------------------------- -->
+        </div>
 
-
-
-                        <li class="nav-item nav-icon-hover-bg rounded-circle dropdown">
-                            <a class="nav-link position-relative" href="javascript:void(0)" id="drop2"
-                                aria-expanded="false">
-                                <i class="bx bx-bell"></i>
-                                <div class="notification bg-primary rounded-circle"></div>
-                            </a>
-                            <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up"
-                                aria-labelledby="drop2">
-                                <div class="d-flex align-items-center justify-content-between py-3 px-7">
-                                    <h5 class="mb-0 fs-5 fw-semibold">Notifications</h5>
-                                    <span class="badge text-bg-primary rounded-4 px-3 py-1 lh-sm">1 new</span>
-                                </div>
-                                <div class="message-body" data-simplebar>
-                                    <a href="javascript:void(0)"
-                                        class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                        <span class="me-3">
-                                            <img src="{{ asset('assets/images/profile/user-2.jpg') }}" alt="user"
-                                                class="rounded-circle" width="48" height="48" />
-                                        </span>
-                                        <div class="w-100">
-                                            <h6 class="mb-1 fw-semibold lh-base">Roman Joined the Team!
-                                            </h6>
-                                            <span class="fs-2 d-block text-body-secondary">Congratulate
-                                                him</span>
-                                        </div>
-                                    </a>
-
-                                </div>
-                                <div class="py-6 px-7 mb-1">
-                                    <button class="btn btn-outline-primary w-100">See All
-                                        Notifications</button>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- ------------------------------- -->
-                        <!-- end notification Dropdown -->
-                        <!-- ------------------------------- -->
-                        <!-- ------------------------------- -->
-                        <!-- start profile Dropdown -->
-                        <!-- ------------------------------- -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" aria-expanded="false">
-                                <div class="d-flex align-items-center">
-                                    <div class="user-profile-img">
-                                        <img src="{{ asset('assets/images/profile/user-1.jpg') }}"
-                                            class="rounded-circle" width="35" height="35" alt="modernize-img" />
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up"
-                                aria-labelledby="drop1">
-                                <div class="profile-dropdown position-relative" data-simplebar>
-                                    <div class="py-3 px-7 pb-0">
-                                        <h5 class="mb-0 fs-5 fw-semibold">User Profile</h5>
-                                    </div>
-                                    <div class="d-flex align-items-center py-9 mx-7 border-bottom">
-                                        <img src="{{ asset('assets/images/profile/user-1.jpg') }}"
-                                            class="rounded-circle" width="80" height="80" alt="modernize-img" />
-                                        <div class="ms-3">
-                                            <h5 class="mb-1 fs-3">{{ session('name') ?? '' }}</h5>
-                                            <span
-                                                class="mb-1 d-block">{{ session('user_group')->roles_name ?? '' }}</span>
-                                            <p class="mb-0 d-flex align-items-center gap-2">
-                                                <i class="bx bx-mail fs-4"></i> info@modernize.com
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="message-body">
-                                        <a href="page-user-profile.html"
-                                            class="py-8 px-7 mt-8 d-flex align-items-center">
-                                            <span
-                                                class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
-                                                <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/svgs/icon-account.svg"
-                                                    alt="modernize-img" width="24" height="24" />
-                                            </span>
-                                            <div class="w-100 ps-3">
-                                                <h6 class="mb-1 fs-3 fw-semibold lh-base">My Profile</h6>
-                                                <span class="fs-2 d-block text-body-secondary">Account
-                                                    Settings</span>
-                                            </div>
-                                        </a>
-                                        <a href="app-email.html" class="py-8 px-7 d-flex align-items-center">
-                                            <span
-                                                class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
-                                                <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/svgs/icon-inbox.svg"
-                                                    alt="modernize-img" width="24" height="24" />
-                                            </span>
-                                            <div class="w-100 ps-3">
-                                                <h6 class="mb-1 fs-3 fw-semibold lh-base">My Inbox</h6>
-                                                <span class="fs-2 d-block text-body-secondary">Messages &
-                                                    Emails</span>
-                                            </div>
-                                        </a>
-                                        <a href="app-notes.html" class="py-8 px-7 d-flex align-items-center">
-                                            <span
-                                                class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
-                                                <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/svgs/icon-tasks.svg"
-                                                    alt="modernize-img" width="24" height="24" />
-                                            </span>
-                                            <div class="w-100 ps-3">
-                                                <h6 class="mb-1 fs-3 fw-semibold lh-base">My Task</h6>
-                                                <span class="fs-2 d-block text-body-secondary">To-do and
-                                                    Daily Tasks</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="d-grid py-4 px-7 pt-8">
-
-                                        <button type="button" class="btn btn-outline-primary"
-                                            onclick="Auth.signOut()">
-                                            Log Out
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- ------------------------------- -->
-                        <!-- end profile Dropdown -->
-                        <!-- ------------------------------- -->
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <!-- ---------------------------------- -->
-        <!-- End Vertical Layout Header -->
-        <!-- ---------------------------------- -->
-
-        <!-- ------------------------------- -->
-        <!-- apps Dropdown in Small screen -->
-        <!-- ------------------------------- -->
-
-    </div>
-    <div class="app-header with-horizontal">
-        <nav class="navbar navbar-expand-xl container-fluid p-0">
-            <ul class="navbar-nav align-items-center">
-                <li class="nav-item nav-icon-hover-bg rounded-circle d-flex d-xl-none ms-n2">
-                    <a class="nav-link sidebartoggler" id="sidebarCollapse" href="javascript:void(0)">
-                        <i class="bx bx-menu-2"></i>
-                    </a>
-                </li>
-                <li class="nav-item d-none d-xl-block">
-                    <a href="index-2.html" class="text-nowrap nav-link">
-                        <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/dark-logo.svg"
-                            class="dark-logo" width="180" alt="modernize-img" />
-                        <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/light-logo.svg"
-                            class="light-logo" width="180" alt="modernize-img" />
-                    </a>
-                </li>
-            </ul>
-
-            <div class="d-block d-xl-none">
-                <a href="index-2.html" class="text-nowrap nav-link">
-                    <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/dark-logo.svg"
-                        width="180" alt="modernize-img" />
+        <!-- /Search -->
+        <ul class="navbar-nav flex-row align-items-center ms-md-auto">
+            <!-- Style Switcher -->
+            <li class="nav-item dropdown me-2 me-xl-0">
+                <a class="nav-link dropdown-toggle hide-arrow" id="nav-theme" href="javascript:void(0);"
+                    data-bs-toggle="dropdown">
+                    <i class="icon-base bx bx-sun icon-md theme-icon-active"></i>
+                    <span class="d-none ms-2" id="nav-theme-text">Toggle theme</span>
                 </a>
-            </div>
-            <a class="navbar-toggler nav-icon-hover-bg rounded-circle p-0 mx-0 border-0" href="javascript:void(0)"
-                data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="p-2">
-                    <i class="bx bx-dots fs-7"></i>
-                </span>
-            </a>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <div class="d-flex align-items-center justify-content-between px-0 px-xl-8">
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-theme-text">
+                    <li>
+                        <button type="button" class="dropdown-item align-items-center active"
+                            data-bs-theme-value="light" aria-pressed="false">
+                            <span><i class="icon-base bx bx-sun icon-md me-3" data-icon="sun"></i>Light</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="dropdown-item align-items-center" data-bs-theme-value="dark"
+                            aria-pressed="true">
+                            <span><i class="icon-base bx bx-moon icon-md me-3" data-icon="moon"></i>Dark</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="dropdown-item align-items-center" data-bs-theme-value="system"
+                            aria-pressed="false">
+                            <span><i class="icon-base bx bx-desktop icon-md me-3" data-icon="desktop"></i>System</span>
+                        </button>
+                    </li>
+                </ul>
+            </li>
+            <!-- / Style Switcher-->
 
-                    <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-                        <!-- ------------------------------- -->
-                        <!-- start language Dropdown -->
-                        <!-- ------------------------------- -->
+            <!-- User -->
+            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <div class="avatar avatar-online">
+                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle" />
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="pages-account-settings-account.html">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 me-3">
+                                    <div class="avatar avatar-online">
+                                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt
+                                            class="w-px-40 h-auto rounded-circle" />
+                                    </div>
+                                </div>
 
-                        <li class="nav-item nav-icon-hover-bg rounded-circle dropdown">
-                            <a class="nav-link position-relative" href="javascript:void(0)" id="drop2"
-                                aria-expanded="false">
-                                <i class="bx bx-bell-ringing"></i>
-                                <div class="notification bg-primary rounded-circle"></div>
-                            </a>
-                            <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up"
-                                aria-labelledby="drop2">
-                                <div class="d-flex align-items-center justify-content-between py-3 px-7">
-                                    <h5 class="mb-0 fs-5 fw-semibold">Notifications</h5>
-                                    <span class="badge text-bg-primary rounded-4 px-3 py-1 lh-sm">5
-                                        new</span>
-                                </div>
-                                <div class="message-body" data-simplebar>
-                                    <a href="javascript:void(0)"
-                                        class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                        <span class="me-3">
-                                            <img src="{{ asset('assets/images/profile/user-2.jpg') }}" alt="user"
-                                                class="rounded-circle" width="48" height="48" />
-                                        </span>
-                                        <div class="w-100">
-                                            <h6 class="mb-1 fw-semibold lh-base">Roman Joined the Team!
-                                            </h6>
-                                            <span class="fs-2 d-block text-body-secondary">Congratulate
-                                                him</span>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:void(0)"
-                                        class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                        <span class="me-3">
-                                            <img src="{{ asset('assets/images/profile/user-3.jpg') }}" alt="user"
-                                                class="rounded-circle" width="48" height="48" />
-                                        </span>
-                                        <div class="w-100">
-                                            <h6 class="mb-1 fw-semibold lh-base">New message</h6>
-                                            <span class="fs-2 d-block text-body-secondary">Salma sent you
-                                                new message</span>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:void(0)"
-                                        class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                        <span class="me-3">
-                                            <img src="{{ asset('assets/images/profile/user-4.jpg') }}" alt="user"
-                                                class="rounded-circle" width="48" height="48" />
-                                        </span>
-                                        <div class="w-100">
-                                            <h6 class="mb-1 fw-semibold lh-base">Bianca sent payment</h6>
-                                            <span class="fs-2 d-block text-body-secondary">Check your
-                                                earnings</span>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:void(0)"
-                                        class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                        <span class="me-3">
-                                            <img src="{{ asset('assets/images/profile/user-5.jpg') }}" alt="user"
-                                                class="rounded-circle" width="48" height="48" />
-                                        </span>
-                                        <div class="w-100">
-                                            <h6 class="mb-1 fw-semibold lh-base">Jolly completed tasks
-                                            </h6>
-                                            <span class="fs-2 d-block text-body-secondary">Assign her new
-                                                tasks</span>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:void(0)"
-                                        class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                        <span class="me-3">
-                                            <img src="{{ asset('assets/images/profile/user-6.jpg') }}" alt="user"
-                                                class="rounded-circle" width="48" height="48" />
-                                        </span>
-                                        <div class="w-100">
-                                            <h6 class="mb-1 fw-semibold lh-base">John received payment
-                                            </h6>
-                                            <span class="fs-2 d-block text-body-secondary">$230 deducted
-                                                from account</span>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:void(0)"
-                                        class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                        <span class="me-3">
-                                            <img src="{{ asset('assets/images/profile/user-7.jpg') }}" alt="user"
-                                                class="rounded-circle" width="48" height="48" />
-                                        </span>
-                                        <div class="w-100">
-                                            <h6 class="mb-1 fw-semibold lh-base">Roman Joined the Team!
-                                            </h6>
-                                            <span class="fs-2 d-block text-body-secondary">Congratulate
-                                                him</span>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="py-6 px-7 mb-1">
-                                    <button class="btn btn-outline-primary w-100">See All
-                                        Notifications</button>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0">{{ session('nama_lengkap') }}</h6>
+                                    <small class="text-body-secondary">{{ session('akses') }}</small>
                                 </div>
                             </div>
-                        </li>
-                        <!-- ------------------------------- -->
-                        <!-- end notification Dropdown -->
-                        <!-- ------------------------------- -->
+                        </a>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider my-1"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="pages-profile-user.html"> <i
+                                class="icon-base bx bx-user icon-md me-3"></i><span>My Profile</span>
+                        </a>
+                    </li>
 
-                        <!-- ------------------------------- -->
-                        <!-- start profile Dropdown -->
-                        <!-- ------------------------------- -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" aria-expanded="false">
-                                <div class="d-flex align-items-center">
-                                    <div class="user-profile-img">
-                                        <img src="{{ asset('assets/images/profile/user-1.jpg') }}"
-                                            class="rounded-circle" width="35" height="35"
-                                            alt="modernize-img" />
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up"
-                                aria-labelledby="drop1">
-                                <div class="profile-dropdown position-relative" data-simplebar>
-                                    <div class="py-3 px-7 pb-0">
-                                        <h5 class="mb-0 fs-5 fw-semibold">User Profile</h5>
-                                    </div>
-                                    <div class="d-flex align-items-center py-9 mx-7 border-bottom">
-                                        <img src="{{ asset('assets/images/profile/user-1.jpg') }}"
-                                            class="rounded-circle" width="80" height="80"
-                                            alt="modernize-img" />
-                                        <div class="ms-3">
-                                            <h5 class="mb-1 fs-3">{{ session('name') ?? '' }}</h5>
-                                            <span
-                                                class="mb-1 d-block">{{ session('user_group')->roles_name ?? '' }}</span>
-                                            <p class="mb-0 d-flex align-items-center gap-2">
-                                                <i class="bx bx-mail fs-4"></i> info@modernize.com
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="message-body">
-                                        <a href="page-user-profile.html"
-                                            class="py-8 px-7 mt-8 d-flex align-items-center">
-                                            <span
-                                                class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
-                                                <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/svgs/icon-account.svg"
-                                                    alt="modernize-img" width="24" height="24" />
-                                            </span>
-                                            <div class="w-100 ps-3">
-                                                <h6 class="mb-1 fs-3 fw-semibold lh-base">My Profile</h6>
-                                                <span class="fs-2 d-block text-body-secondary">Account
-                                                    Settings</span>
-                                            </div>
-                                        </a>
-                                        <a href="app-email.html" class="py-8 px-7 d-flex align-items-center">
-                                            <span
-                                                class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
-                                                <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/svgs/icon-inbox.svg"
-                                                    alt="modernize-img" width="24" height="24" />
-                                            </span>
-                                            <div class="w-100 ps-3">
-                                                <h6 class="mb-1 fs-3 fw-semibold lh-base">My Inbox</h6>
-                                                <span class="fs-2 d-block text-body-secondary">Messages &
-                                                    Emails</span>
-                                            </div>
-                                        </a>
-                                        <a href="app-notes.html" class="py-8 px-7 d-flex align-items-center">
-                                            <span
-                                                class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
-                                                <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/svgs/icon-tasks.svg"
-                                                    alt="modernize-img" width="24" height="24" />
-                                            </span>
-                                            <div class="w-100 ps-3">
-                                                <h6 class="mb-1 fs-3 fw-semibold lh-base">My Task</h6>
-                                                <span class="fs-2 d-block text-body-secondary">To-do and
-                                                    Daily Tasks</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="d-grid py-4 px-7 pt-8">
-                                        <div
-                                            class="upgrade-plan bg-primary-subtle position-relative overflow-hidden rounded-4 p-4 mb-9">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <h5 class="fs-4 mb-3 fw-semibold">Unlimited Access
-                                                    </h5>
-                                                    <button class="btn btn-primary">Upgrade</button>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="m-n4 unlimited-img">
-                                                        <img src="{{ asset('assets/images/backgrounds/unlimited-bg.png') }}"
-                                                            alt="modernize-img" class="w-100" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn btn-outline-primary"
-                                            onclick="Auth.signOut()">
-                                            Log Out
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- ------------------------------- -->
-                        <!-- end profile Dropdown -->
-                        <!-- ------------------------------- -->
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                    <li>
+                        <div class="dropdown-divider my-1"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#" onclick="Auth.signOut()"> <i
+                                class="icon-base bx bx-power-off icon-md me-3"></i>
+                            <span>Log Out</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!--/ User -->
+        </ul>
     </div>
-</header>
-<!--  Header End -->
+</nav>

@@ -1,322 +1,269 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme" data-layout="vertical">
-
-
-<!-- Mirrored from bootstrapdemos.adminmart.com/modernize/dist/main/authentication-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 24 Oct 2025 07:32:28 GMT -->
+<!doctype html>
+<html lang="en" class=" layout-wide  customizer-hide" dir="ltr" data-skin="default"
+    data-assets-path="{{ asset('assets/') }}" data-template="vertical-menu-template" data-bs-theme="light">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <title>Demo: Login Cover - Pages | Sneat - Bootstrap Dashboard PRO</title>
+
+    <!-- Canonical SEO -->
+    <meta name="description"
+        content="Sneat is the best bootstrap 5 dashboard for responsive web apps. Streamline your app development process with ease." />
+
+    <meta name="keywords"
+        content="Sneat bootstrap dashboard, sneat bootstrap 5 dashboard, themeselection, html dashboard, web dashboard, frontend dashboard, responsive bootstrap theme" />
+    <meta property="og:title" content="Sneat Bootstrap 5 Dashboard PRO by ThemeSelection" />
+    <meta property="og:type" content="product" />
+    <meta property="og:url" content="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/" />
+    {{-- <meta property="og:image" content="{{ asset('themeselection.com/wp-content/uploads/edd/2024/08/sneat-dashboard-pro-bootstrap-smm-image.png') }}" /> --}}
+    <meta property="og:description"
+        content="Sneat is the best bootstrap 5 dashboard for responsive web apps. Streamline your app development process with ease." />
+    <meta property="og:site_name" content="ThemeSelection" />
+    <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/" />
 
 
-    <!-- Favicon icon-->
-    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/favicon.png') }}" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon"
+        href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/favicon/favicon.ico" />
 
-    <!-- Core Css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" />
-    {{-- loader --}}
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/" />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/iconify-icons.css') }}" />
+
+    <!-- Core CSS -->
+    <!-- build:css assets/vendor/css/theme.css  -->
+
+
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/pickr/pickr-themes.css') }}" />
+
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+
+
+    <!-- Vendors CSS -->
+
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+
+    <!-- endbuild -->
+
+    <!-- Vendor -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/@form-validation/form-validation.css') }}" />
+
+    <!-- Page CSS -->
+    <!-- Page -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-auth.css') }}" />
+
+    <!-- Helpers -->
+    <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
+    <script src="{{ asset('assets/js/config.js') }}"></script>
+
+
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/loader/loader.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.css') }}">
 
-    <title>Modernize Bootstrap Admin</title>
+
 </head>
 
 <body>
     <div class="loader"></div>
-    <!-- Preloader -->
-    <div class="preloader">
-        <img src="{{ $title_top }}" alt="loader" class="lds-ripple img-fluid" />
-    </div>
-    <div id="main-wrapper" class="auth-customizer-none">
-        <div class="position-relative overflow-hidden radial-gradient min-vh-100 w-100">
-            <div class="position-relative z-index-5">
-                <div class="row">
-                    <div class="col-xl-7 col-xxl-8">
-                        <a href="index-2.html" class="text-nowrap logo-img d-block px-4 py-9 w-100">
-                            <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/dark-logo.svg"
-                                class="dark-logo" alt="Logo-Dark" />
-                            <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/light-logo.svg"
-                                class="light-logo" alt="Logo-light" />
-                        </a>
-                        <div class="d-none d-xl-flex align-items-center justify-content-center h-n80">
-                            <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/backgrounds/login-security.svg"
-                                alt="modernize-img" class="img-fluid" width="500">
-                        </div>
-                    </div>
-                    <div class="col-xl-5 col-xxl-4">
-                        <div
-                            class="authentication-login min-vh-100 bg-body row justify-content-center align-items-center p-4">
-                            <div class="auth-max-width col-sm-8 col-md-6 col-xl-7 px-4">
-                                <h2 class="mb-1 fs-7 fw-bolder">Welcome to Modernize</h2>
-                                <p class="mb-7">Your Admin Dashboard</p>
-                                <div class="row">
-                                    <div class="col-12 mb-2 mb-sm-0">
-                                        <a class="btn text-dark border fw-normal d-flex align-items-center justify-content-center rounded-2 py-8"
-                                            href="javascript:void(0)" role="button">
-                                            <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/svgs/google-icon.svg"
-                                                alt="modernize-img" class="img-fluid me-2" width="18"
-                                                height="18">
-                                            <span class="flex-shrink-0">with Google</span>
-                                        </a>
-                                    </div>
+    <div class="authentication-wrapper authentication-cover">
+        <!-- Logo -->
+        <a href="index-2.html" class="app-brand auth-cover-brand gap-2">
+            <span class="app-brand-logo demo">
+                <span class="text-primary">
+                    <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <defs>
+                            <path
+                                d="M13.7918663,0.358365126 L3.39788168,7.44174259 C0.566865006,9.69408886 -0.379795268,12.4788597 0.557900856,15.7960551 C0.68998853,16.2305145 1.09562888,17.7872135 3.12357076,19.2293357 C3.8146334,19.7207684 5.32369333,20.3834223 7.65075054,21.2172976 L7.59773219,21.2525164 L2.63468769,24.5493413 C0.445452254,26.3002124 0.0884951797,28.5083815 1.56381646,31.1738486 C2.83770406,32.8170431 5.20850219,33.2640127 7.09180128,32.5391577 C8.347334,32.0559211 11.4559176,30.0011079 16.4175519,26.3747182 C18.0338572,24.4997857 18.6973423,22.4544883 18.4080071,20.2388261 C17.963753,17.5346866 16.1776345,15.5799961 13.0496516,14.3747546 L10.9194936,13.4715819 L18.6192054,7.984237 L13.7918663,0.358365126 Z"
+                                id="path-1"></path>
+                            <path
+                                d="M5.47320593,6.00457225 C4.05321814,8.216144 4.36334763,10.0722806 6.40359441,11.5729822 C8.61520715,12.571656 10.0999176,13.2171421 10.8577257,13.5094407 L15.5088241,14.433041 L18.6192054,7.984237 C15.5364148,3.11535317 13.9273018,0.573395879 13.7918663,0.358365126 C13.5790555,0.511491653 10.8061687,2.3935607 5.47320593,6.00457225 Z"
+                                id="path-3"></path>
+                            <path
+                                d="M7.50063644,21.2294429 L12.3234468,23.3159332 C14.1688022,24.7579751 14.397098,26.4880487 13.008334,28.506154 C11.6195701,30.5242593 10.3099883,31.790241 9.07958868,32.3040991 C5.78142938,33.4346997 4.13234973,34 4.13234973,34 C4.13234973,34 2.75489982,33.0538207 2.37032616e-14,31.1614621 C-0.55822714,27.8186216 -0.55822714,26.0572515 -4.05231404e-15,25.8773518 C0.83734071,25.6075023 2.77988457,22.8248993 3.3049379,22.52991 C3.65497346,22.3332504 5.05353963,21.8997614 7.50063644,21.2294429 Z"
+                                id="path-4"></path>
+                            <path
+                                d="M20.6,7.13333333 L25.6,13.8 C26.2627417,14.6836556 26.0836556,15.9372583 25.2,16.6 C24.8538077,16.8596443 24.4327404,17 24,17 L14,17 C12.8954305,17 12,16.1045695 12,15 C12,14.5672596 12.1403557,14.1461923 12.4,13.8 L17.4,7.13333333 C18.0627417,6.24967773 19.3163444,6.07059163 20.2,6.73333333 C20.3516113,6.84704183 20.4862915,6.981722 20.6,7.13333333 Z"
+                                id="path-5"></path>
+                        </defs>
+                        <g id="g-app-brand" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Brand-Logo" transform="translate(-27.000000, -15.000000)">
+                                <g id="Icon" transform="translate(27.000000, 15.000000)">
+                                    <g id="Mask" transform="translate(0.000000, 8.000000)">
+                                        <mask id="mask-2" fill="white">
+                                            <use xlink:href="#path-1"></use>
+                                        </mask>
+                                        <use fill="currentColor" xlink:href="#path-1"></use>
+                                        <g id="Path-3" mask="url(#mask-2)">
+                                            <use fill="currentColor" xlink:href="#path-3"></use>
+                                            <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-3"></use>
+                                        </g>
+                                        <g id="Path-4" mask="url(#mask-2)">
+                                            <use fill="currentColor" xlink:href="#path-4"></use>
+                                            <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-4"></use>
+                                        </g>
+                                    </g>
+                                    <g id="Triangle"
+                                        transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) ">
+                                        <use fill="currentColor" xlink:href="#path-5"></use>
+                                        <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5"></use>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                </span>
+            </span>
+            <span class="app-brand-text demo text-heading fw-bold">Sneat</span>
+        </a>
+        <!-- /Logo -->
+        <div class="authentication-inner row m-0">
+            <!-- /Left Text -->
+            <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center p-5">
+                <div class="w-100 d-flex justify-content-center">
+                    <img src="assets/img/illustrations/girl-checkout-offer-light.png" class="img-fluid"
+                        alt="Login image" width="700"
+                        data-app-dark-img="illustrations/girl-checkout-offer-light.png"
+                        data-app-light-img="illustrations/girl-checkout-offer-light.png" />
+                </div>
+            </div>
+            <!-- /Left Text -->
 
-                                </div>
-                                <div class="position-relative text-center my-4">
-                                    <p
-                                        class="mb-0 fs-4 px-3 d-inline-block bg-body text-dark z-index-5 position-relative">
-                                        or sign
-                                        in
-                                        with</p>
-                                    <span
-                                        class="border-top w-100 position-absolute top-50 start-50 translate-middle"></span>
-                                </div>
-                                <form class="needs-validation" id="loginForm" novalidate>
-                                    <div class="mb-3">
-                                        <label for="username" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="username" autofocus required>
-                                        {{-- <div class="valid-feedback">Looks good!</div> --}}
-                                        <div class="invalid-feedback">
-                                            Please choose a username.
-                                        </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="password" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="password" required>
-                                        <div class="invalid-feedback">
-                                            Please choose a password.
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-4">
-                                        <a class="text-primary fw-medium fs-3"
-                                            href="authentication-forgot-password.html">Forgot Password ?</a>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">
-                                        Sign In
-                                    </button>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <p class="fs-4 mb-0 fw-medium">New to Modernize?</p>
-                                        <a class="text-primary fw-medium ms-2"
-                                            href="{{ route('auth.register') }}">Create an
-                                            account</a>
-                                    </div>
-                                </form>
+            <!-- Login -->
+            <div class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg p-sm-12 p-6">
+                <div class="w-px-400 mx-auto mt-sm-12 mt-8">
+                    <h4 class="mb-1">Welcome to Sneat! 👋</h4>
+                    <p class="mb-6">Please sign-in to your account and start the adventure</p>
+
+                    <div id="form-login" class="row mb-6">
+                        <div class="mb-6">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control required" error="Username" id="username"
+                                name="username" placeholder="Enter your username or username" autofocus />
+                        </div>
+                        <div class="form-password-toggle form-control-validation">
+                            <label class="form-label" for="password">Password</label>
+                            <div class="input-group input-group-merge">
+                                <input type="password" id="password" class="form-control" error="Password"
+                                    name="password"
+                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                    aria-describedby="password" />
+                                <span class="input-group-text cursor-pointer"><i
+                                        class="icon-base bx bx-hide"></i></span>
                             </div>
                         </div>
+                        <div class="my-7">
+                            <div class="d-flex justify-content-between">
+
+                                <a href="auth-forgot-password-cover.html">
+                                    <p class="mb-0">Forgot Password?</p>
+                                </a>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary d-grid w-100" onclick="Auth.signIn(this,event)">Sign
+                            in</button>
+                    </div>
+
+                    <p class="text-center">
+                        <span>New on our platform?</span>
+                        <a href="{{ route('auth.register') }}">
+                            <span>Create an account</span>
+                        </a>
+                    </p>
+
+                    <div class="divider my-6">
+                        <div class="divider-text">or</div>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <a href="javascript:;" class="btn btn-sm btn-icon rounded-circle btn-text-facebook me-1_5">
+                            <i class="icon-base bx bxl-facebook-circle icon-20px"></i>
+                        </a>
+
+                        <a href="javascript:;" class="btn btn-sm btn-icon rounded-circle btn-text-twitter me-1_5">
+                            <i class="icon-base bx bxl-twitter icon-20px"></i>
+                        </a>
+
+                        <a href="javascript:;" class="btn btn-sm btn-icon rounded-circle btn-text-github me-1_5">
+                            <i class="icon-base bx bxl-github icon-20px"></i>
+                        </a>
+
+                        <a href="javascript:;" class="btn btn-sm btn-icon rounded-circle btn-text-google-plus">
+                            <i class="icon-base bx bxl-google icon-20px"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
-        <script>
-            function handleColorTheme(e) {
-                document.documentElement.setAttribute("data-color-theme", e);
-            }
-        </script>
-        <button
-            class="btn btn-primary p-3 rounded-circle d-flex align-items-center justify-content-center customizer-btn"
-            type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
-            aria-controls="offcanvasExample">
-            <i class="icon ti ti-settings fs-7"></i>
-        </button>
-
-        <div class="offcanvas customizer offcanvas-end" tabindex="-1" id="offcanvasExample"
-            aria-labelledby="offcanvasExampleLabel">
-            <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
-                <h4 class="offcanvas-title fw-semibold" id="offcanvasExampleLabel">
-                    Settings
-                </h4>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body h-n80" data-simplebar>
-                <h6 class="fw-semibold fs-4 mb-2">Theme</h6>
-
-                <div class="d-flex flex-row gap-3 customizer-box" role="group">
-                    <input type="radio" class="btn-check light-layout" name="theme-layout" id="light-layout"
-                        autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary rounded-2" for="light-layout">
-                        <i class="icon ti ti-brightness-up fs-7 me-2"></i>Light
-                    </label>
-
-                    <input type="radio" class="btn-check dark-layout" name="theme-layout" id="dark-layout"
-                        autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary rounded-2" for="dark-layout">
-                        <i class="icon ti ti-moon fs-7 me-2"></i>Dark
-                    </label>
-                </div>
-
-                <h6 class="mt-5 fw-semibold fs-4 mb-2">Theme Direction</h6>
-                <div class="d-flex flex-row gap-3 customizer-box" role="group">
-                    <input type="radio" class="btn-check" name="direction-l" id="ltr-layout"
-                        autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary" for="ltr-layout">
-                        <i class="icon ti ti-text-direction-ltr fs-7 me-2"></i>LTR
-                    </label>
-
-                    <input type="radio" class="btn-check" name="direction-l" id="rtl-layout"
-                        autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary" for="rtl-layout">
-                        <i class="icon ti ti-text-direction-rtl fs-7 me-2"></i>RTL
-                    </label>
-                </div>
-
-                <h6 class="mt-5 fw-semibold fs-4 mb-2">Theme Colors</h6>
-
-                <div class="d-flex flex-row flex-wrap gap-3 customizer-box color-pallete" role="group">
-                    <input type="radio" class="btn-check" name="color-theme-layout" id="Blue_Theme"
-                        autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary d-flex align-items-center justify-content-center"
-                        onclick="handleColorTheme('Blue_Theme')" for="Blue_Theme" data-bs-toggle="tooltip"
-                        data-bs-placement="top" data-bs-title="BLUE_THEME">
-                        <div class="color-box rounded-circle d-flex align-items-center justify-content-center skin-1">
-                            <i class="ti ti-check text-white d-flex icon fs-5"></i>
-                        </div>
-                    </label>
-
-                    <input type="radio" class="btn-check" name="color-theme-layout" id="Aqua_Theme"
-                        autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary d-flex align-items-center justify-content-center"
-                        onclick="handleColorTheme('Aqua_Theme')" for="Aqua_Theme" data-bs-toggle="tooltip"
-                        data-bs-placement="top" data-bs-title="AQUA_THEME">
-                        <div class="color-box rounded-circle d-flex align-items-center justify-content-center skin-2">
-                            <i class="ti ti-check text-white d-flex icon fs-5"></i>
-                        </div>
-                    </label>
-
-                    <input type="radio" class="btn-check" name="color-theme-layout" id="Purple_Theme"
-                        autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary d-flex align-items-center justify-content-center"
-                        onclick="handleColorTheme('Purple_Theme')" for="Purple_Theme" data-bs-toggle="tooltip"
-                        data-bs-placement="top" data-bs-title="PURPLE_THEME">
-                        <div class="color-box rounded-circle d-flex align-items-center justify-content-center skin-3">
-                            <i class="ti ti-check text-white d-flex icon fs-5"></i>
-                        </div>
-                    </label>
-
-                    <input type="radio" class="btn-check" name="color-theme-layout" id="green-theme-layout"
-                        autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary d-flex align-items-center justify-content-center"
-                        onclick="handleColorTheme('Green_Theme')" for="green-theme-layout" data-bs-toggle="tooltip"
-                        data-bs-placement="top" data-bs-title="GREEN_THEME">
-                        <div class="color-box rounded-circle d-flex align-items-center justify-content-center skin-4">
-                            <i class="ti ti-check text-white d-flex icon fs-5"></i>
-                        </div>
-                    </label>
-
-                    <input type="radio" class="btn-check" name="color-theme-layout" id="cyan-theme-layout"
-                        autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary d-flex align-items-center justify-content-center"
-                        onclick="handleColorTheme('Cyan_Theme')" for="cyan-theme-layout" data-bs-toggle="tooltip"
-                        data-bs-placement="top" data-bs-title="CYAN_THEME">
-                        <div class="color-box rounded-circle d-flex align-items-center justify-content-center skin-5">
-                            <i class="ti ti-check text-white d-flex icon fs-5"></i>
-                        </div>
-                    </label>
-
-                    <input type="radio" class="btn-check" name="color-theme-layout" id="orange-theme-layout"
-                        autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary d-flex align-items-center justify-content-center"
-                        onclick="handleColorTheme('Orange_Theme')" for="orange-theme-layout" data-bs-toggle="tooltip"
-                        data-bs-placement="top" data-bs-title="ORANGE_THEME">
-                        <div class="color-box rounded-circle d-flex align-items-center justify-content-center skin-6">
-                            <i class="ti ti-check text-white d-flex icon fs-5"></i>
-                        </div>
-                    </label>
-                </div>
-
-                <h6 class="mt-5 fw-semibold fs-4 mb-2">Layout Type</h6>
-                <div class="d-flex flex-row gap-3 customizer-box" role="group">
-                    <div>
-                        <input type="radio" class="btn-check" name="page-layout" id="vertical-layout"
-                            autocomplete="off" />
-                        <label class="btn p-9 btn-outline-primary" for="vertical-layout">
-                            <i class="icon ti ti-layout-sidebar-right fs-7 me-2"></i>Vertical
-                        </label>
-                    </div>
-                    <div>
-                        <input type="radio" class="btn-check" name="page-layout" id="horizontal-layout"
-                            autocomplete="off" />
-                        <label class="btn p-9 btn-outline-primary" for="horizontal-layout">
-                            <i class="icon ti ti-layout-navbar fs-7 me-2"></i>Horizontal
-                        </label>
-                    </div>
-                </div>
-
-                <h6 class="mt-5 fw-semibold fs-4 mb-2">Container Option</h6>
-
-                <div class="d-flex flex-row gap-3 customizer-box" role="group">
-                    <input type="radio" class="btn-check" name="layout" id="boxed-layout" autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary" for="boxed-layout">
-                        <i class="icon ti ti-layout-distribute-vertical fs-7 me-2"></i>Boxed
-                    </label>
-
-                    <input type="radio" class="btn-check" name="layout" id="full-layout" autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary" for="full-layout">
-                        <i class="icon ti ti-layout-distribute-horizontal fs-7 me-2"></i>Full
-                    </label>
-                </div>
-
-                <h6 class="fw-semibold fs-4 mb-2 mt-5">Sidebar Type</h6>
-                <div class="d-flex flex-row gap-3 customizer-box" role="group">
-                    <a href="javascript:void(0)" class="fullsidebar">
-                        <input type="radio" class="btn-check" name="sidebar-type" id="full-sidebar"
-                            autocomplete="off" />
-                        <label class="btn p-9 btn-outline-primary" for="full-sidebar">
-                            <i class="icon ti ti-layout-sidebar-right fs-7 me-2"></i>Full
-                        </label>
-                    </a>
-                    <div>
-                        <input type="radio" class="btn-check " name="sidebar-type" id="mini-sidebar"
-                            autocomplete="off" />
-                        <label class="btn p-9 btn-outline-primary" for="mini-sidebar">
-                            <i class="icon ti ti-layout-sidebar fs-7 me-2"></i>Collapse
-                        </label>
-                    </div>
-                </div>
-
-                <h6 class="mt-5 fw-semibold fs-4 mb-2">Card With</h6>
-
-                <div class="d-flex flex-row gap-3 customizer-box" role="group">
-                    <input type="radio" class="btn-check" name="card-layout" id="card-with-border"
-                        autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary" for="card-with-border">
-                        <i class="icon ti ti-border-outer fs-7 me-2"></i>Border
-                    </label>
-
-                    <input type="radio" class="btn-check" name="card-layout" id="card-without-border"
-                        autocomplete="off" />
-                    <label class="btn p-9 btn-outline-primary" for="card-without-border">
-                        <i class="icon ti ti-border-none fs-7 me-2"></i>Shadow
-                    </label>
-                </div>
-            </div>
+            <!-- /Login -->
         </div>
     </div>
-    <div class="dark-transparent sidebartoggler"></div>
-    <!-- Import Js Files -->
-    <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
-    <script src="{{ asset('assets/js/theme/app.init.js') }}"></script>
-    <script src="{{ asset('assets/js/theme/theme.js') }}"></script>
-    <script src="{{ asset('assets/js/theme/app.min.js') }}"></script>
+
+    <!-- / Content -->
+
+
+
+
+
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/theme.js  -->
+    <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/@algolia/autocomplete-js.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/pickr/pickr.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/hammer/hammer.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/i18n/i18n.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="{{ asset('assets/vendor/libs/@form-validation/popular.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/@form-validation/auto-focus.js') }}"></script>
+
+    <!-- Main JS -->
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+
+
+    <!-- Page JS -->
+    <script src="{{ asset('assets/js/pages-auth.js') }}"></script>
+
+
+    <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+
+    <script src="{{ asset('assets/utils/url.js') }}"></script>
+    <script src="{{ asset('assets/utils/message.js') }}"></script>
+    <script src="{{ asset('assets/utils/validation.js') }}"></script>
+
+    <!-- Vendors JS -->
+
+    @if (isset($header_data))
+        @php $version = str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'); @endphp
+        @foreach ($header_data as $key => $v_head)
+            @php $data_key = explode('-', $key); @endphp
+            @if ($data_key[0] == 'js')
+                <script src="{{ $v_head }}?v={{ $version }}"></script>
+            @endif
+        @endforeach
+    @endif
+
+
 </body>
 
-<script src="{{ asset('assets/js/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/utils/url.js') }}"></script>
-<script src="{{ asset('assets/utils/message.js') }}"></script>
-{{-- <script src="{{ asset('assets/utils/validation.js') }}"></script> --}}
-<script src="{{ asset('assets/js/plugins/bootstrap-validation-init.js') }}"></script>
-<script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.js') }}"></script>
-
-@if (isset($header_data))
-    @php $version = str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'); @endphp
-    @foreach ($header_data as $key => $v_head)
-        @php $data_key = explode('-', $key); @endphp
-        @if ($data_key[0] == 'js')
-            <script src="{{ $v_head }}?v={{ $version }}"></script>
-        @endif
-    @endforeach
-@endif
 
 </html>

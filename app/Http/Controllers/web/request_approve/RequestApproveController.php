@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web\request_approve;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\MasterAplikasi;
 use App\Models\Master\UserGroup;
 use App\Models\Master\Users;
 
@@ -57,7 +58,7 @@ class RequestApproveController extends Controller
             'title' => 'Request Add',
             'action' => 'add',
         ];
-        $data['data_user_group'] = UserGroup::whereNull('deleted')->get();
+        $data['data_apps'] = MasterAplikasi::get();
         $view = view('web.request_approve.request.form.form', $data);
         $put['title_content'] = 'Request';
         $put['title_top'] = 'Request';
@@ -76,7 +77,7 @@ class RequestApproveController extends Controller
             'title' => 'Permission Edit',
             'action' => 'edit',
         ];
-        $data['data_user_group'] = UserGroup::whereNull('deleted')->get();
+        $data['data_apps'] = MasterAplikasi::get();
         $view = view('web.request_approve.request.form.form', $data);
         $put['title_content'] = 'Permission';
         $put['title_top'] = 'Permission';
@@ -96,7 +97,7 @@ class RequestApproveController extends Controller
             'title' => 'Permission Detail',
             'action' => 'detail',
         ];
-        $data['data_user_group'] = UserGroup::whereNull('deleted')->get();
+        $data['data_apps'] = MasterAplikasi::get();
         $view = view('web.request_approve.request.form.form', $data);
         $put['title_content'] = 'Permission';
         $put['title_top'] = 'Permission';

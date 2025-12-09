@@ -5,94 +5,96 @@ namespace App\Http\Controllers\api\template;
 use App\Http\Controllers\Controller;
 use App\Models\Master\PermissionUsers;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class TemplateMenuController extends Controller
 {
     public function generateMenuWeb()
     {
-        // jika session tidak ada, kembali
         if (!Session::has('user_group')) {
-            return "<li class='sidebar-item'><span class='hide-menu text-muted'>Tidak ada menu</span></li>";
+            return "<li class='menu-item'><span class='text-muted'>Tidak ada menu</span></li>";
         }
+
         $userGroup = Session::get('user_group')->id;
 
-        // Ambil permission dan relasi MasterMenu
+        // Ambil permission + relasi MasterMenu (yang tidak di-delete)
         $permissions = PermissionUsers::with('MasterMenu')
             ->where('user_group', $userGroup)
-            // whereHas MasterMenu deleted null
-            ->whereHas('MasterMenu', function ($query) {
-                $query->whereNull('deleted');
+            ->whereHas('MasterMenu', function ($q) {
+                $q->whereNull('deleted');
             })
             ->whereNull('deleted')
             ->get();
 
         if ($permissions->isEmpty()) {
-            return "<li class='sidebar-item'><span class='hide-menu text-muted'>Tidak ada menu</span></li>";
+            return "<li class='menu-item'><span class='text-muted'>Tidak ada menu</span></li>";
         }
 
-        // Ambil hanya menu valid dan urutkan berdasarkan sort
-        $menus = $permissions->pluck('MasterMenu')->filter()->sortBy('sort');
+        // Ambil daftar menu valid
+        $menus = $permissions->pluck('MasterMenu')
+            ->filter()
+            ->sortBy('sort');
 
-        // Bangun struktur menu rekursif mulai dari menu tanpa parent
         return $this->buildMenu($menus);
     }
 
-    private function buildMenu($menus, $parentCode = '')
+    private function buildMenu($menus, $parent = '')
     {
-        $html = '';
+        $html = "";
 
         foreach ($menus as $menu) {
-            if (!is_object($menu)) continue;
-
-            // Bandingkan parent berdasarkan menu_code
-            if (($menu->parent ?? '') != $parentCode) continue;
+            if (($menu->parent ?? '') != $parent) continue;
 
             $hasChild = $this->hasChild($menus, $menu->menu_code);
 
-            // Tentukan URL
-            $url = (!empty($menu->path) && $menu->path != '-' && $menu->path != '/')
-                ? url($menu->path)
+            $path = trim($menu->path ?? '');
+            $url = ($path !== '' && $path !== '-' && $path !== '/')
+                ? URL::to($path)
                 : 'javascript:void(0)';
 
-            $icon = $menu->icon ?: 'bx bx-circle';
-            $menuName = e($menu->name ?: '-');
+            $menuToggle = $hasChild ? "menu-toggle" : "";
+
+            $isActive = request()->is($path)
+                || request()->is($path . '/index')
+                || request()->is($path . '/add')
+                || request()->is($path . '/edit');
+
+            $active = $isActive ? "active open" : "";
+
+            $icon = $menu->icon ?? '';
+            $name = e($menu->name ?: '-');
+
+            // ⬇️ Jika icon kosong, tidak tampilkan <i>
+            $iconHtml = $icon !== '' ? "<i class='menu-icon icon-base {$icon}'></i>" : "";
+
+            $html .= "<li class='menu-item {$active}'>";
+
+            $html .= "
+            <a href='{$url}' class='menu-link {$menuToggle}'>
+                {$iconHtml}
+                <div class='text-truncate' data-i18n='{$name}'>{$name}</div>
+                " . ($hasChild ? "<div class='menu-icon-end'></div>" : "") . "
+            </a>
+        ";
 
             if ($hasChild) {
-                // Menu dengan sub-menu
-                $html .= "
-                <li class='sidebar-item'>
-                    <a class='sidebar-link has-arrow' href='javascript:void(0)' aria-expanded='false'>
-                        <span class='d-flex'>
-                            <i class='{$icon}'></i>
-                        </span>
-                        <span class='hide-menu'>{$menuName}</span>
-                    </a>
-                    <ul aria-expanded='false' class='collapse first-level'>
-                        " . $this->buildMenu($menus, $menu->menu_code) . "
-                    </ul>
-                </li>";
-            } else {
-                // Submenu atau menu tanpa anak
-                $html .= "
-                <li class='sidebar-item'>
-                    <a href='{$url}' class='sidebar-link'>
-                        <div class='round-16 d-flex align-items-center justify-content-center'>
-                            <i class='{$icon}'></i>
-                        </div>
-                        <span class='hide-menu'>{$menuName}</span>
-                    </a>
-                </li>";
+                $html .= "<ul class='menu-sub'>";
+                $html .= $this->buildMenu($menus, $menu->menu_code);
+                $html .= "</ul>";
             }
+
+            $html .= "</li>";
         }
 
         return $html;
     }
 
+
+
     private function hasChild($menus, $menuCode)
     {
-        foreach ($menus as $menu) {
-            if (!is_object($menu)) continue;
-            if (($menu->parent ?? '') == $menuCode) {
+        foreach ($menus as $m) {
+            if (($m->parent ?? '') === $menuCode) {
                 return true;
             }
         }
